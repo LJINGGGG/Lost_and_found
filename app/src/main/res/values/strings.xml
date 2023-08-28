@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="home_xml">home.xml\n</string>
+    <string name="event_xml">event.xml</string>
+    <string name="add_item">add_item</string>
+    <string name="nearby_xml">nearby.xml\n</string>
+    <string name="me_xml">me.xml</string>
+    <string name="filter_xml">filter.xml</string>
+    <string name="option_xml">option.xml</string>
+</resources>

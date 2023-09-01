@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -35,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         ImageButton filterButton = findViewById(R.id.FilterButton);
         ImageButton eventButton = findViewById(R.id.EventButton);
         ImageButton homeButton = findViewById(R.id.HomeButton);
@@ -44,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
         ImageButton nearbyButton = findViewById(R.id.NearByButton);
         ImageButton meButton = findViewById(R.id.MeButton);
         RecyclerView view_ = findViewById(R.id.recyclerView);
+        TabLayout FoundPage = findViewById(R.id.Found_tab);
 
+        FoundPage.setOnClickListener(v->{
+            Intent intent = new Intent(MainActivity.this,Found_page.class);
+            startActivity(intent);
+        });
 
         List<YourDataMOdel> data = new ArrayList<>();
 
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(intent);
         });
 
-//        homeButton.setOnClickListener(v -> {
+        homeButton.setOnClickListener(v -> {
 //
 //            swipeRefreshLayout.setOnKeyListener(new SwipeRefreshLayout.OnRefreshListener() {
 //                @Override
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 //                    refreshContent();
 //                }
 //            });
-//        });
+        });
 
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,Create_post.class);

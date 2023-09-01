@@ -60,6 +60,29 @@ public class Create_post extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
+        if (name != null) {
+            name = getIntent().getStringExtra("name");
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alert Dialog")
+                .setMessage(name)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the OK button click
+                        dialog.dismiss(); // Close the dialog
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the Cancel button click
+                        dialog.dismiss(); // Close the dialog
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
         information_edit = findViewById(R.id.info);
         lostButton = findViewById(R.id.lostButton);
         foundButton = findViewById(R.id.foundButton);

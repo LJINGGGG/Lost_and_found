@@ -128,10 +128,12 @@ public class Profile_Picture extends AppCompatActivity {
 
                     Log.d("success", "User data and image uploaded successfully");
                     Intent intent1 = new Intent(Profile_Picture.this , MainActivity.class);
+                    intent1.putExtra("name", info1Array[0]);
                     startActivity(intent1);
                 }else{
                     uploadUserDataAndImage();
                     Intent intent1 = new Intent(Profile_Picture.this , MainActivity.class);
+                    intent1.putExtra("name", info1Array[0]);
                     startActivity(intent1);
                 }
             }

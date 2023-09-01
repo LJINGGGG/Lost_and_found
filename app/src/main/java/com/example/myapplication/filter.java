@@ -47,7 +47,7 @@ public class filter extends AppCompatActivity {
     private void filterList(String text) {
         List<YourDataMOdel> filteredList = new ArrayList<>();
         for(YourDataMOdel item: itemList){
-            if(item.getItemName().toLowerCase().contains(text.toLowerCase())) {
+            if(item.getpost_Name().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
 
             }

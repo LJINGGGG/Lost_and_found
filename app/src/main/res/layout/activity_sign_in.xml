@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/signup_bg"
+    android:orientation="vertical"
+    tools:context=".user_features.SignIn_">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="319dp"
+        android:layout_height="525dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.572">
+
+        <LinearLayout
+            android:layout_width="271dp"
+            android:layout_height="492dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="331dp"
+                android:layout_height="61dp"
+                android:layout_gravity="center"
+                android:hint="Enter your Username" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="start|center_vertical"
+                android:hint="Enter phone number"
+                android:inputType="phone"
+                android:padding="16dp"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/detail_date"
+                android:layout_width="302dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="#FFFFFF"
+                android:hint="01 / 01 / 2023"
+                android:padding="15dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/country"
+                android:layout_width="334dp"
+                android:layout_height="56dp"
+                android:ems="10"
+                android:hint="Enter your Contry"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/state"
+                android:layout_width="331dp"
+                android:layout_height="63dp"
+                android:ems="10"
+                android:hint="Enter your State"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="334dp"
+                android:layout_height="55dp"
+                android:hint="Enter your Email" />
+
+            <EditText
+                android:id="@+id/passwd"
+                android:layout_width="334dp"
+                android:layout_height="55dp"
+                android:hint="Enter your Password"
+                android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btnregister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register" />
+
+            <Button
+                android:id="@+id/btngoogle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register - Google" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

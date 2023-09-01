@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.myapplication.nearBy_features.nearBy;
+import com.example.myapplication.user_features.LogIn_;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
         data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
         data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
+
 
         filterButton.setOnClickListener(v -> {
 

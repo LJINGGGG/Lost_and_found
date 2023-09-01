@@ -11,11 +11,15 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -57,23 +61,105 @@ public class Create_post extends AppCompatActivity {
         setContentView(R.layout.activity_create_post);
 
         information_edit = findViewById(R.id.info);
-        Category_edit = findViewById(R.id.category);
-        Location_edit = findViewById(R.id.location);
         lostButton = findViewById(R.id.lostButton);
         foundButton = findViewById(R.id.foundButton);
         insertImageButton = findViewById(R.id.insert_imageButton);
         openCameraButton = findViewById(R.id.open_cameraButton);
         postButton = findViewById(R.id.postButton);
         progressBar = findViewById(R.id.progressBar);
+        Spinner countrySpinner = findViewById(R.id.stateSpinner);
+        Spinner categorySpinner = findViewById(R.id.categorySpinner);
+        EditText customCategoryEditText = findViewById(R.id.customCategoryEditText);
+
+        // Create an array of categories, including "Others"
 
         String information = information_edit.getText().toString();
-        String location = Location_edit.getText().toString();
-
         // Better using selection (for them to select)
-        String category = Category_edit.getText().toString();
 
-//
-//
+
+
+        // Create an array of country names
+        String[] countries ={
+                "Select State",
+                "Johor",
+                "Kedah",
+                "Kelantan",
+                "Melaka",
+                "Negeri Sembilan",
+                "Pahang",
+                "Perak",
+                "Perlis",
+                "Pulau Pinang",
+                "Sabah",
+                "Sarawak",
+                "Selangor",
+                "Terengganu",
+                "Wilayah Persekutuan (KL)",
+                "Wilayah Persekutuan (Putrajaya)"
+        };
+
+        String[] categories = {
+                "Select Category",
+                "Bottle",
+                "Bag",
+                "Key",
+                "Student Card",
+                "Phone",
+                "iPad",
+                "Others" // Add "Others" as an option
+        };
+
+        // Create an ArrayAdapter using the country array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
+
+        // Set the ArrayAdapter to the spinner
+        countrySpinner.setAdapter(adapter);
+
+        // Set an item selection listener to handle user selections
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selected item
+                String selectedCountry = (String) parentView.getItemAtPosition(position);
+                if (!selectedCountry.equals("Select State")) {
+                    // Display a toast message with the selected country
+                    Toast.makeText(Create_post.this, "Selected State: " + selectedCountry, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here
+            }
+        });
+
+        // Create an ArrayAdapter using the categories array and a default spinner layout
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+
+        // Set the ArrayAdapter to the spinner
+        categorySpinner.setAdapter(adapter2);
+
+        // Set an item selection listener to handle user selections
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedCategory = (String) parentView.getItemAtPosition(position);
+
+                // Show or hide the EditText field based on the selection
+                if (TextUtils.equals(selectedCategory, "Others")) {
+                    customCategoryEditText.setVisibility(View.VISIBLE);
+                } else {
+                    customCategoryEditText.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here
+            }
+        });
+
+
         // 0. Button click
         lostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,12 +268,14 @@ public class Create_post extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String selectedCountry = countrySpinner.getSelectedItem().toString(); // Get the selected country from the Spinner
+                String selectedCategory = categorySpinner.getSelectedItem().toString(); // Get the selected category from the Spinner
 
                 /// Beter have validation for input
                 if (post_category == null) {
                     general_dialog("Error" , "Please select whether this is lost post or found post.");
                 }else{
-                    postData post_data = new postData(information ,category ,location, post_category, imageUrl , name );
+                    postData post_data = new postData(information ,selectedCountry ,selectedCategory, post_category, imageUrl , name );
                     DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("post_found_lost");
                     String uniqueKey = myRef.push().getKey();
                     myRef.child(uniqueKey).setValue(post_data);
@@ -268,3 +356,9 @@ public class Create_post extends AppCompatActivity {
 
     }
     }
+
+//
+//
+
+
+

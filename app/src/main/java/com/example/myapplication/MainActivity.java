@@ -43,20 +43,10 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton addButton = findViewById(R.id.addButton);
         ImageButton nearbyButton = findViewById(R.id.NearByButton);
         ImageButton meButton = findViewById(R.id.MeButton);
-
         RecyclerView view_ = findViewById(R.id.recyclerView);
 
-//        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         List<YourDataMOdel> data = new ArrayList<>();
-
-        data.add(new YourDataMOdel(R.drawable.pic, "Description 1" , "DF"));
-        data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
-        data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
-        data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
-        data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
-        data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
-
 
         filterButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,filter.class);
@@ -64,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         eventButton.setOnClickListener(v -> {
-
+//            Intent intent = new Intent(MainActivity.this,filter.class);
+//            startActivity(intent);
         });
 
 //        homeButton.setOnClickListener(v -> {

@@ -8,7 +8,7 @@
     tools:context=".Create_post">
 
     <LinearLayout
-        android:layout_width="297dp"
+        android:layout_width="match_parent"
         android:layout_height="121dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -36,21 +36,29 @@
         android:inputType="text"
         android:hint="Information" />
 
-    <EditText
-        android:id="@+id/category"
+    <Spinner
+        android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Category" />
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/location"
+        android:id="@+id/customCategoryEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="Enter custom category"
+        android:visibility="gone" />
+
+    <Spinner
+        android:id="@+id/stateSpinner"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Location" />
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

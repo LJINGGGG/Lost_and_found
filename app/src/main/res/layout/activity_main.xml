@@ -1,112 +1,106 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-        <LinearLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal"
-            android:layout_alignParentTop="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal">
 
-            <com.google.android.material.tabs.TabLayout
-                android:layout_width="303dp"
-                android:layout_height="match_parent">
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="303dp"
+            android:layout_height="match_parent">
 
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/Lost_tab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#C4F7F5"
-                    android:text="Lost Post" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/Found_tab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:text="Found Post" />
-
-            </com.google.android.material.tabs.TabLayout>
-
-            <ImageButton
-                android:id="@+id/FilterButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/filter_xml"
-                android:padding="20dp"
-                android:src="@drawable/ic_filter" />
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/header"
-            android:layout_above="@+id/footer"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/footer"
-            >
-
-            <ImageButton
-                android:id="@+id/EventButton"
-                android:layout_width="90dp"
-                android:layout_height="55dp"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/event_xml"
-                android:padding="20dp"
-                android:src="@drawable/ic_event" />
-
-            <ImageButton
-                android:id="@+id/HomeButton"
-                android:layout_width="90dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/home_xml"
-                android:padding="20dp"
-                android:src="@drawable/ic_home" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/addButton"
-                android:layout_width="69dp"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/Lost_tab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:contentDescription="@string/add_item"
-                android:focusable="true"
-                android:src="@android:drawable/ic_input_add" />
+                android:background="#C4F7F5"
+                android:text="Lost" />
 
-            <ImageButton
-                android:id="@+id/NearByButton"
-                android:layout_width="90dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/Found_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/nearby_xml"
-                android:padding="20dp"
-                android:src="@drawable/ic_nearby" />
+                android:text="Found" />
 
-            <ImageButton
-                android:id="@+id/MeButton"
-                android:layout_width="90dp"
-                android:layout_height="55dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/me_xml"
-                android:padding="20dp"
-                android:src="@drawable/ic_me" />
-        </LinearLayout>
+        </com.google.android.material.tabs.TabLayout>
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/FilterButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/filter_xml"
+            android:padding="20dp"
+            android:src="@drawable/ic_filter" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="623dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/EventButton"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/event_xml"
+            android:padding="20dp"
+            android:src="@drawable/ic_event" />
+
+        <ImageButton
+            android:id="@+id/HomeButton"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/home_xml"
+            android:padding="20dp"
+            android:src="@drawable/ic_home" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addButton"
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:contentDescription="@string/add_item"
+            android:focusable="true"
+            android:src="@android:drawable/ic_input_add" />
+
+        <ImageButton
+            android:id="@+id/NearByButton"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/nearby_xml"
+            android:padding="20dp"
+            android:src="@drawable/ic_nearby" />
+
+        <ImageButton
+            android:id="@+id/MeButton"
+            android:layout_width="90dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/me_xml"
+            android:padding="20dp"
+            android:src="@drawable/ic_me" />
+    </LinearLayout>
+
+</LinearLayout>

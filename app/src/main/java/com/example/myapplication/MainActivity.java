@@ -1,18 +1,20 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 
-import com.android.car.ui.toolbar.TabLayout;
+//import com.android.car.ui.toolbar.TabLayout;
 import android.widget.Button;
 
 import com.example.myapplication.nearBy_features.nearBy;
@@ -27,15 +29,38 @@ public class MainActivity extends AppCompatActivity {
 
 
     private View swipeRefreshLayout;
-    private TabLayout tabLayout;
+//    private TabLayout tabLayout;
     private ViewPager2 viewPager2;
+
+    private String name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        name = getIntent().getStringExtra("name");
 
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Alert Dialog")
+                .setMessage(name)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the OK button click
+                        dialog.dismiss(); // Close the dialog
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the Cancel button click
+                        dialog.dismiss(); // Close the dialog
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
 
         ImageButton filterButton = findViewById(R.id.FilterButton);
         ImageButton eventButton = findViewById(R.id.EventButton);
@@ -70,11 +95,13 @@ public class MainActivity extends AppCompatActivity {
 
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,Create_post.class);
+            intent.putExtra("name", name);
             startActivity(intent);
         });
 
         nearbyButton.setOnClickListener(v -> {
-
+            Intent intent = new Intent(MainActivity.this, nearBy.class);
+            startActivity(intent);
         });
 
         meButton.setOnClickListener(v -> {

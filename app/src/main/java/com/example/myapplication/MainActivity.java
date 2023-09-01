@@ -13,6 +13,10 @@ import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import com.android.car.ui.toolbar.TabLayout;
+import android.widget.Button;
+
+import com.example.myapplication.nearBy_features.nearBy;
+import com.example.myapplication.user_features.LogIn_;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
         data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
         data.add(new YourDataMOdel(R.drawable.pic, "Description 2","FFF"));
+
 
         filterButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,filter.class);

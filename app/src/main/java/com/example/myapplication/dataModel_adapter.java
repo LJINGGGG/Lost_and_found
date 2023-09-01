@@ -12,7 +12,7 @@ import java.util.List;
 public class dataModel_adapter extends RecyclerView.Adapter<dataModel_viewholder>
 {
     Context context;
-    List<YourDataMOdel> items ;
+    List<YourDataMOdel> items;
 
     public dataModel_adapter(Context context , List<YourDataMOdel>items){
         this.context = context;
@@ -37,4 +37,5 @@ public class dataModel_adapter extends RecyclerView.Adapter<dataModel_viewholder
     public int getItemCount() {
         return items.size();
     }
+
 }

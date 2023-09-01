@@ -35,4 +35,8 @@ public class YourDataMOdel {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getItemName() {
+return String.valueOf(true);
+    }
 }

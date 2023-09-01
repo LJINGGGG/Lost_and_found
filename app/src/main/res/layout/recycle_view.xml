@@ -42,13 +42,13 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/FilterButton"
+            android:id="@+id/OptionButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/filter_xml"
-            android:src="@drawable/ic_filter" />
+            android:contentDescription="@string/option_xml"
+            android:src="@drawable/ic_option" />
 
     </LinearLayout>
 

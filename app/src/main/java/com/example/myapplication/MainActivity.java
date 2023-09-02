@@ -1,25 +1,30 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.SearchView;
-
-import com.android.car.ui.toolbar.TabLayout;
-import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.graphics.Color;
 
 import com.example.myapplication.nearBy_features.nearBy;
-import com.example.myapplication.user_features.LogIn_;
+import com.example.myapplication.user_features.SignIn_;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,35 +37,19 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
 
-    private String name;
+    private List<Lost_Found_Post>  Lost_postList = new ArrayList<>();;
+
+    private List<Lost_Found_Post> Found_postList = new ArrayList<>();;
+
+    private TextView lost_view , found_view;
+
+    private String name , filter_country = "Select State" , filter_category = "Select Category";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        name = getIntent().getStringExtra("name");
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Alert Dialog")
-                .setMessage(name)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle the OK button click
-                        dialog.dismiss(); // Close the dialog
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle the Cancel button click
-                        dialog.dismiss(); // Close the dialog
-                    }
-                });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
 
         ImageButton filterButton = findViewById(R.id.FilterButton);
         ImageButton eventButton = findViewById(R.id.EventButton);
@@ -69,17 +58,60 @@ public class MainActivity extends AppCompatActivity {
         ImageButton nearbyButton = findViewById(R.id.NearByButton);
         ImageButton meButton = findViewById(R.id.MeButton);
         RecyclerView view_ = findViewById(R.id.recyclerView);
-        TabLayout FoundPage = findViewById(R.id.Found_tab);
 
-        FoundPage.setOnClickListener(v->{
-            Intent intent = new Intent(MainActivity.this,Found_page.class);
-            startActivity(intent);
+        found_view = findViewById(R.id.textView2);
+        lost_view = findViewById(R.id.textView3);
+
+        Intent intent_get = getIntent();
+        if (intent_get.hasExtra("info_country")) {
+            String info = intent_get.getStringExtra("info_country");
+            String[] info1Array = info.split(",");
+            filter_category = info1Array[0];
+            filter_country = info1Array[1];
+        } else {
+            //        name = intent_get.getStringExtra("name");
+        }
+
+        getdata(view_);
+
+
+
+        found_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                found_view.setBackgroundColor(Color.parseColor("#ffffff"));
+                found_view.setTextColor(Color.parseColor("#000000"));
+
+                lost_view.setBackgroundColor(Color.parseColor("#032068"));
+                lost_view.setTextColor(Color.parseColor("#ffffff"));
+//                getdata1();
+
+                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                view_.setLayoutManager(layoutManager);
+                view_.setAdapter(new dataModel_adapter(MainActivity.this,Found_postList));
+
+            }
         });
 
-        List<YourDataMOdel> data = new ArrayList<>();
+        lost_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                getdata1();
+
+                lost_view.setBackgroundColor(Color.parseColor("#ffffff"));
+                lost_view.setTextColor(Color.parseColor("#000000"));
+
+                found_view.setBackgroundColor(Color.parseColor("#032068"));
+                found_view.setTextColor(Color.parseColor("#ffffff"));
+
+                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                view_.setLayoutManager(layoutManager);
+                view_.setAdapter(new dataModel_adapter(MainActivity.this,Lost_postList));
+            }
+        });
 
         filterButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this,filter.class);
+            Intent intent = new Intent(MainActivity.this, filter.class);
             startActivity(intent);
         });
 
@@ -89,13 +121,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         homeButton.setOnClickListener(v -> {
-//
-//            swipeRefreshLayout.setOnKeyListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                @Override
-//                public void onRefresh() {
-//                    refreshContent();
-//                }
-//            });
+            Intent intent = new Intent(MainActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         addButton.setOnClickListener(v -> {
@@ -108,21 +136,84 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, nearBy.class);
             startActivity(intent);
         });
-
         meButton.setOnClickListener(v -> {
-
         });
-
-
-        view_.setLayoutManager(new LinearLayoutManager(this));
-        view_.setAdapter(new dataModel_adapter(getApplicationContext(),data));
     }
 
-//    private void refreshContent() {
-//        Intent intent =
-//    }
 
 
+
+    public void getdata(RecyclerView view) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("post_found_lost");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String selectedCategory = postSnapshot.child("category").getValue(String.class);
+                    String imageUrl = postSnapshot.child("imageurl").getValue(String.class);
+                    String information = postSnapshot.child("information").getValue(String.class);
+                    String selectedCountry = postSnapshot.child("location").getValue(String.class);
+                    String name = postSnapshot.child("name").getValue(String.class);
+                    String post_category = postSnapshot.child("post_catrgory").getValue(String.class);
+                    Lost_Found_Post post = new Lost_Found_Post(selectedCategory, imageUrl, information, selectedCountry, name, post_category);
+
+                    if ("Lost".equals(post.getPost_catrgory())) {
+                        if (filter_country.equals("Select State") && filter_category.equals("Select Category")) {
+                            Lost_postList.add(post);
+                        }else {
+                            if (!(filter_country.isEmpty()) && (filter_category.equals("Select Category"))) {
+                                if (post.getLocation().equals(filter_country)) {
+                                    Lost_postList.add(post);
+                                }
+                            } else if ((filter_country.equals("Select State")) && !(filter_category.isEmpty())) {
+                                if (post.getCategory().equals(filter_category)) {
+                                    Lost_postList.add(post);
+                                }
+                            }else{
+                                if (post.getLocation().equals(filter_country) && post.getCategory().equals(filter_category)) {
+                                    Lost_postList.add(post);
+                                }
+                            }
+                        }
+                    } else if ("Found".equals(post.getPost_catrgory())) {
+
+                        if (filter_country.equals("Select State") && filter_category.equals("Select Category")) {
+                            Found_postList.add(post);
+                        }else {
+                            if (!(filter_country.isEmpty()) && (filter_category.equals("Select Category"))) {
+                                if (post.getLocation().equals(filter_country)) {
+                                    Found_postList.add(post);
+                                }
+                            } else if ((filter_country.equals("Select State")) && !(filter_category.isEmpty())) {
+                                if (post.getCategory().equals(filter_category)) {
+                                    Found_postList.add(post);
+                                }
+                            }else{
+                                if (post.getLocation().equals(filter_country) && post.getCategory().equals(filter_category)) {
+                                    Toast.makeText(MainActivity.this, "1.", Toast.LENGTH_SHORT).show();
+
+                                    Found_postList.add(post);
+                                }
+                            }
+                        }
+                    }
+                }
+                lost_view.setBackgroundColor(Color.parseColor("#ffffff"));
+                lost_view.setTextColor(Color.parseColor("#000000"));
+
+                found_view.setBackgroundColor(Color.parseColor("#032068"));
+                found_view.setTextColor(Color.parseColor("#ffffff"));
+
+                LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                view.setLayoutManager(layoutManager);
+                view.setAdapter(new dataModel_adapter(MainActivity.this,Lost_postList));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors that occur during the data retrieval
+            }
+        });
+    }
 }
 
 

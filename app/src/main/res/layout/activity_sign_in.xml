@@ -29,8 +29,8 @@
 
             <EditText
                 android:id="@+id/username"
-                android:layout_width="331dp"
-                android:layout_height="61dp"
+                android:layout_width="278dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center"
                 android:hint="Enter your Username" />
 

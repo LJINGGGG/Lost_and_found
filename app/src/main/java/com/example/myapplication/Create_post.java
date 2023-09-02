@@ -1,10 +1,5 @@
 package com.example.myapplication;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.Lost_Found_Post;
+import com.example.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,8 +37,6 @@ import java.util.UUID;
 
 public class Create_post extends AppCompatActivity {
     private EditText information_edit;
-    private EditText Category_edit;
-    private EditText Location_edit;
     private Button lostButton;
     private Button foundButton;
     private Button insertImageButton;
@@ -49,8 +49,11 @@ public class Create_post extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> cameraLauncher;
 
-    private String post_category, imageUrl, imageId;
+    private String post_category, imageUrl, imageId ,information;
     private Uri imageUri;
+
+    private DatabaseReference databaseReference;
+
 
     //////////// Combine (YM)
     private String name = "YM";
@@ -60,9 +63,9 @@ public class Create_post extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        if (name != null) {
-            name = getIntent().getStringExtra("name");
-        }
+//        if (name != null) {
+//            name = getIntent().getStringExtra("name");
+//        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Alert Dialog")
@@ -93,13 +96,6 @@ public class Create_post extends AppCompatActivity {
         Spinner countrySpinner = findViewById(R.id.stateSpinner);
         Spinner categorySpinner = findViewById(R.id.categorySpinner);
         EditText customCategoryEditText = findViewById(R.id.customCategoryEditText);
-
-        // Create an array of categories, including "Others"
-
-        String information = information_edit.getText().toString();
-        // Better using selection (for them to select)
-
-
 
         // Create an array of country names
         String[] countries ={
@@ -142,7 +138,6 @@ public class Create_post extends AppCompatActivity {
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Handle the selected item
                 String selectedCountry = (String) parentView.getItemAtPosition(position);
                 if (!selectedCountry.equals("Select State")) {
                     // Display a toast message with the selected country
@@ -294,16 +289,16 @@ public class Create_post extends AppCompatActivity {
                 String selectedCountry = countrySpinner.getSelectedItem().toString(); // Get the selected country from the Spinner
                 String selectedCategory = categorySpinner.getSelectedItem().toString(); // Get the selected category from the Spinner
 
+                information = information_edit.getText().toString();
+
                 /// Beter have validation for input
                 if (post_category == null) {
                     general_dialog("Error" , "Please select whether this is lost post or found post.");
                 }else{
-                    postData post_data = new postData(information ,selectedCountry ,selectedCategory, post_category, imageUrl , name );
-                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("post_found_lost");
-                    String uniqueKey = myRef.push().getKey();
-                    myRef.child(uniqueKey).setValue(post_data);
-
-
+                    Lost_Found_Post post = new Lost_Found_Post(selectedCategory,imageUrl,information,selectedCountry,name,post_category);
+                    databaseReference = FirebaseDatabase.getInstance().getReference("post_found_lost");
+                    String uniqueKey = databaseReference.push().getKey();
+                    databaseReference.child(uniqueKey).setValue(post);
                     Toast.makeText(Create_post.this , "Success" , Toast.LENGTH_SHORT).show();
 
                 }
@@ -378,10 +373,8 @@ public class Create_post extends AppCompatActivity {
         alertDialog.show();
 
     }
-    }
+}
 
-//
-//
 
 
 

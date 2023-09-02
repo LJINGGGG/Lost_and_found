@@ -19,13 +19,10 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
-            android:name=".share"
-            android:exported="false" />
-        <activity
-            android:name=".Found_page"
-            android:exported="false" />
-        <activity
             android:name=".Create_post"
+            android:exported="false" />
+        <activity
+            android:name=".share"
             android:exported="false" />
         <activity
             android:name=".filter"
@@ -37,11 +34,13 @@
             android:name=".user_features.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.MyApplication1">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".user_features.Profile_Picture"
@@ -59,7 +58,13 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

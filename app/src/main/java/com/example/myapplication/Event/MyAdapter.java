@@ -60,9 +60,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     if (dataSnapshot.exists()) {
                         String childValue = dataSnapshot.getValue(String.class);
 
-                        Log.d("ImageUri", "Image URI2: " + childValue);
-
-
 
 
                         // Load the image using Glide

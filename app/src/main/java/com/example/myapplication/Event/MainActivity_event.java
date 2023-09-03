@@ -96,13 +96,11 @@ public class MainActivity_event extends AppCompatActivity {
         eventButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity_event.this, MainActivity_event.class);
             startActivity(intent);
-            finish();
         });
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity_event.this,MainActivity.class);
             startActivity(intent);
-            finish();
         });
 
         addButton.setOnClickListener(v -> {
@@ -113,7 +111,6 @@ public class MainActivity_event extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity_event.this, Create_post.class);
                     startActivity(intent);
-                    finish();
                 }
             });
             dialogBuilder.setNegativeButton("Event", new DialogInterface.OnClickListener() {
@@ -121,7 +118,6 @@ public class MainActivity_event extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity_event.this, Create_event.class);
                     startActivity(intent);
-                    finish();
                 }
             });
             AlertDialog alertDialog = dialogBuilder.create();
@@ -131,7 +127,6 @@ public class MainActivity_event extends AppCompatActivity {
         nearbyButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity_event.this, nearBy.class);
             startActivity(intent);
-            finish();
         });
 
         meButton.setOnClickListener(v -> {

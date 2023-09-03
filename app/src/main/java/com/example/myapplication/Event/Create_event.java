@@ -316,6 +316,7 @@ public class Create_event extends AppCompatActivity {
                             Toast.makeText(this, "Successful update and create", Toast.LENGTH_SHORT).show();
                             intent = new Intent(Create_event.this,MainActivity_event.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             // Handle error
                         }

@@ -54,13 +54,11 @@ public class nearBy extends AppCompatActivity {
         eventButton.setOnClickListener(v -> {
             Intent intent = new Intent(nearBy.this, MainActivity_event.class);
             startActivity(intent);
-            finish();
         });
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(nearBy.this,MainActivity.class);
             startActivity(intent);
-            finish();
         });
 
         addButton.setOnClickListener(v -> {
@@ -71,7 +69,6 @@ public class nearBy extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(nearBy.this, Create_post.class);
                     startActivity(intent);
-                    finish();
                 }
             });
             dialogBuilder.setNegativeButton("Event", new DialogInterface.OnClickListener() {
@@ -79,7 +76,6 @@ public class nearBy extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(nearBy.this, Create_event.class);
                     startActivity(intent);
-                    finish();
                 }
             });
             AlertDialog alertDialog = dialogBuilder.create();
@@ -89,7 +85,6 @@ public class nearBy extends AppCompatActivity {
         nearbyButton.setOnClickListener(v -> {
             Intent intent = new Intent(nearBy.this, nearBy.class);
             startActivity(intent);
-            finish();
         });
         meButton.setOnClickListener(v -> {
         });

@@ -77,9 +77,7 @@ public class filter extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedCountry = (String) parentView.getItemAtPosition(position);
-                if (!selectedCountry.equals("Select State")) {
-                    Toast.makeText(filter.this, "Selected State: " + selectedCountry, Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(filter.this, "Selected State: " + selectedCountry, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -94,6 +92,7 @@ public class filter extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 selectedCategory = (String) parentView.getItemAtPosition(position);
+                Toast.makeText(filter.this, "Selected State: " + selectedCategory, Toast.LENGTH_SHORT).show();
 
                 // Show or hide the EditText field based on the selection
                 if (TextUtils.equals(selectedCategory, "Others")) {
@@ -116,6 +115,7 @@ public class filter extends AppCompatActivity {
                     Intent intent = new Intent(filter.this,MainActivity.class);
                     intent.putExtra("info_country", selectedCategory + "," +selectedCountry);
                     startActivity(intent);
+                    finish();
                 }
 
 
@@ -131,6 +131,7 @@ public class filter extends AppCompatActivity {
                 intent.putExtra("Category", selectedCategory);
                 intent.putExtra("Country", selectedCountry);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -143,6 +144,7 @@ public class filter extends AppCompatActivity {
                 intent.putExtra("Category", selectedCategory);
                 intent.putExtra("Country", selectedCountry);
                 startActivity(intent);
+                finish();
             }
         });
 

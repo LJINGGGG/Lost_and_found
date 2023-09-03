@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +25,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.example.myapplication.Event.Create_event;
 import com.example.myapplication.Lost_Found_Post;
 import com.example.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
@@ -35,14 +40,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Create_post extends AppCompatActivity {
     private EditText information_edit;
     private Button lostButton;
     private Button foundButton;
-    private Button insertImageButton;
-    private Button openCameraButton;
-    private Button postButton;
+    private ImageButton insertImageButton;
+    private ImageButton openCameraButton;
+    private ImageButton postButton;
 
+    private ImageButton back_button;
     private ProgressBar progressBar;
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -53,38 +61,28 @@ public class Create_post extends AppCompatActivity {
     private Uri imageUri;
 
     private DatabaseReference databaseReference;
-
-
-    //////////// Combine (YM)
-    private String name = "YM";
+    private String name = "" ,profile_imageUrl ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-//        if (name != null) {
-//            name = getIntent().getStringExtra("name");
-//        }
+        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
+        name = prefget.getString("Name","NA");
+        profile_imageUrl = prefget.getString("Image","NA");
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Alert Dialog")
-                .setMessage(name)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle the OK button click
-                        dialog.dismiss(); // Close the dialog
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle the Cancel button click
-                        dialog.dismiss(); // Close the dialog
-                    }
-                });
+        CircleImageView userImageView = findViewById(R.id.user_profile);
+        if (profile_imageUrl != null) {
+            Glide.with(userImageView.getContext())
+                    .load(profile_imageUrl)
+                    .placeholder(R.drawable.place_holder_image)
+                    .error(R.drawable.error_image)
+                    .into(userImageView);
+        }
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        TextView textview = findViewById(R.id.user_name);
+        textview.setText(name);
 
         information_edit = findViewById(R.id.info);
         lostButton = findViewById(R.id.lostButton);
@@ -96,6 +94,17 @@ public class Create_post extends AppCompatActivity {
         Spinner countrySpinner = findViewById(R.id.stateSpinner);
         Spinner categorySpinner = findViewById(R.id.categorySpinner);
         EditText customCategoryEditText = findViewById(R.id.customCategoryEditText);
+        back_button = findViewById(R.id.back_btn);
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Create_post.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         // Create an array of country names
         String[] countries ={

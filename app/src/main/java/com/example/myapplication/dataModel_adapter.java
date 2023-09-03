@@ -1,6 +1,7 @@
 package com.example.myapplication;//package com.example.myapplication;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -17,6 +18,7 @@ public class dataModel_adapter extends RecyclerView.Adapter<dataModel_viewholder
     Context context;
     List<Lost_Found_Post> items;
 
+
     public dataModel_adapter(Context context , List<Lost_Found_Post>items){
         this.context = context;
         this.items = items;
@@ -30,6 +32,12 @@ public class dataModel_adapter extends RecyclerView.Adapter<dataModel_viewholder
 
     @Override
     public void onBindViewHolder(@NonNull dataModel_viewholder holder, int position) {
+
+        SharedPreferences prefget =  context.getSharedPreferences("MySharedPreferences",0);
+//        String name = prefget.getString("Name","NA");
+        String profile_imageUrl = prefget.getString("Image","NA");
+
+
 
         holder.username.setText(items.get(position).getName());
 
@@ -45,10 +53,19 @@ public class dataModel_adapter extends RecyclerView.Adapter<dataModel_viewholder
         if (imageUri != null) {
             // Load the image using Glide
             Glide.with(holder.imageView.getContext())
-                    .load(imageUri) // Assuming imageUri is the URL or resource for the image
-//                    .placeholder(R.drawable.place_holder_image) // Add a placeholder image resource
-//                    .error(R.drawable.error_image) // Add an error image resource
+                    .load(imageUri)
+                    .placeholder(R.drawable.place_holder_image)
+                    .error(R.drawable.error_image)
                     .into(holder.imageView);
+        }
+
+        if (profile_imageUrl != null) {
+            // Load the image using Glide
+            Glide.with(holder.imageView.getContext())
+                    .load(profile_imageUrl)
+                    .placeholder(R.drawable.place_holder_image)
+                    .error(R.drawable.error_image)
+                    .into(holder.userProfile);
         }
     }
 

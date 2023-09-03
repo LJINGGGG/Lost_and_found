@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,12 +41,10 @@ public class Member_list extends AppCompatActivity {
         img_url = intent.getStringExtra("image_url");
 
 
-        Log.d("lookup", "ongetlink" + postId);
-
         Uri uri_temporary = Uri.parse(postId);
         Uri_desiredPart = uri_temporary.getLastPathSegment();
 
-        Button return_page = findViewById(R.id.return_page);
+        ImageButton return_page = findViewById(R.id.return_page);
 
         MyAdapter2 adapter = new MyAdapter2(data);
         recyclerView.setAdapter(adapter);

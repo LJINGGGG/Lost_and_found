@@ -9,23 +9,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/blue_YM"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/back"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
+            android:layout_width="235dp"
+            android:layout_height="61dp"
             android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:text="back" />
+            android:src="@drawable/baseline_arrow_back_ios_24" />
 
         <TextView
             android:id="@+id/Event_name2"
-            android:layout_width="wrap_content"
+            android:layout_width="304dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:text="TextView" />
+            android:background="@color/blue_YM"
+            android:textColor="@color/white"
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -35,7 +35,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="58dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:orientation="horizontal">
@@ -51,22 +51,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAlignment="center"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAlignment="center" />
 
-            <Button
+
+            <ImageButton
                 android:id="@+id/share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="share" />
+                android:background="@color/white"
+                android:src="@drawable/ic_option" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/member"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="member" />
+                android:background="@color/white"
+                android:src="@drawable/baseline_info_24" />
+
 
         </LinearLayout>
 
@@ -252,9 +256,12 @@
 
     <Button
         android:id="@+id/button_join"
-        android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:layout_marginRight="20dp"
+        android:layout_width="366dp"
+        android:layout_height="55dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/yellow_YM"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:text="Join" />
 </LinearLayout>

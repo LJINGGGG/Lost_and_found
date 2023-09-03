@@ -12,12 +12,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.filter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -42,13 +46,13 @@ import java.util.Calendar;
 
 public class SignIn_ extends AppCompatActivity {
 
-    private EditText emailTextView, passwordTextView, date , usernameTextView , phoneTextView , countryTextView , stateTextView;
+    private EditText emailTextView, passwordTextView, date , usernameTextView , phoneTextView  , stateTextView;
 
     private DatePickerDialog datePickerDialog;
 
     private GoogleSignInClient mGoogleSignInClient;
 
-    private String userType_ ,info;
+    private String userType_ ,info ,country , state;
 
     private Button Btn , Btn1;
     private StorageReference storageReference;
@@ -91,8 +95,7 @@ public class SignIn_ extends AppCompatActivity {
         passwordTextView = findViewById(R.id.passwd);
         usernameTextView = findViewById(R.id.username);
         phoneTextView = findViewById(R.id.phone);
-        countryTextView = findViewById(R.id.country);
-        stateTextView = findViewById(R.id.state);
+        Spinner countrySpinner = findViewById(R.id.county_spinner);
 
 
         Btn = findViewById(R.id.btnregister);
@@ -130,6 +133,40 @@ public class SignIn_ extends AppCompatActivity {
 
         });
 
+        String[] countries ={
+                "Select State",
+                "Johor",
+                "Kedah",
+                "Kelantan",
+                "Melaka",
+                "Negeri Sembilan",
+                "Pahang",
+                "Perak",
+                "Perlis",
+                "Pulau Pinang",
+                "Sabah",
+                "Sarawak",
+                "Selangor",
+                "Terengganu",
+                "Wilayah Persekutuan (KL)",
+                "Wilayah Persekutuan (Putrajaya)"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, countries);
+        countrySpinner.setAdapter(adapter);
+
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                state = (String) parentView.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing here
+            }
+        });
+
 
         // Set on Click Listener on Registration button
         Btn.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +178,7 @@ public class SignIn_ extends AppCompatActivity {
                 String phone_number = phoneTextView.getText().toString().trim();
                 String name = usernameTextView.getText().toString().trim();
                 String date_ = date.getText().toString().trim();
-                String country = countryTextView.getText().toString().trim();
-                String state = stateTextView.getText().toString().trim();
+                country = "Malaysia";
 
 
                 // Check if any of the fields are empty
@@ -176,6 +212,7 @@ public class SignIn_ extends AppCompatActivity {
                                 Intent intent1 = new Intent(SignIn_.this , Profile_Picture.class);
                                 intent1.putExtra("info", info);
                                 startActivity(intent1);
+                                finish();
 
                                 emailTextView.setText("");
                                 passwordTextView.setText("");
@@ -219,6 +256,7 @@ public class SignIn_ extends AppCompatActivity {
                         Intent intent2 = new Intent(SignIn_.this , Profile_Picture.class);
                         intent2.putExtra("info", info);
                         startActivity(intent2);
+                        finish();
 
                     } else {
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {

@@ -3,12 +3,14 @@ package com.example.myapplication.nearBy_features;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Event.MyAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.user_features.User;
 import com.google.firebase.database.DataSnapshot;
@@ -23,10 +25,14 @@ public class nearBy_Adapter extends RecyclerView.Adapter<nearBy_Viewholder> {
 
     Context context;
     List<User> userList;
+    private MyAdapter.ItemClickListener itemClickListener;
 
-    public nearBy_Adapter(Context context, List<User> userList) {
+
+    public nearBy_Adapter(Context context, List<User> userList , MyAdapter.ItemClickListener itemClickListener) {
         this.context = context;
         this.userList = userList;
+        this.itemClickListener = itemClickListener;
+
     }
 
     public void setFilteredList(nearBy context, List<User> filteredList) {
@@ -53,18 +59,34 @@ public class nearBy_Adapter extends RecyclerView.Adapter<nearBy_Viewholder> {
         String imageUri = currentItem.getImageUrI();
 
         if (imageUri != null) {
-            // Load the image using Glide
             Glide.with(holder.imageView.getContext())
-                    .load(imageUri) // Assuming imageUri is the URL or resource for the image
-//                    .placeholder(R.drawable.place_holder_image) // Add a placeholder image resource
-//                    .error(R.drawable.error_image) // Add an error image resource
+                    .load(imageUri)
+                    .placeholder(R.drawable.place_holder_image)
+                    .error(R.drawable.error_image)
                     .into(holder.imageView);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int adapterPosition = holder.getAdapterPosition(); // Get the current adapter position
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(adapterPosition);
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return userList.size();
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(int position);
     }
 
 

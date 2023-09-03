@@ -4,20 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
+
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/blue_YM"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/return_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="back" />
+            android:layout_width="235dp"
+            android:layout_height="61dp"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_arrow_back_ios_24" />
 
+        <TextView
+            android:id="@+id/blank3"
+            android:layout_width="304dp"
+            android:layout_height="match_parent"
+            android:background="@color/blue_YM"
+            android:text="" />
 
     </LinearLayout>
 
@@ -66,6 +75,9 @@
                 android:id="@+id/button9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/yellow_YM"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:text="Upload Image" />
 
             <LinearLayout
@@ -195,6 +207,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:backgroundTint="@color/yellow_YM"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:text="Create Event" />
 
 </LinearLayout>

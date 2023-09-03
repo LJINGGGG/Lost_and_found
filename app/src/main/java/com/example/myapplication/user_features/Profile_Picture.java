@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
@@ -41,6 +44,12 @@ public class Profile_Picture extends AppCompatActivity {
     private ActivityResultLauncher<Intent> cameraLauncher;
     private  String[] info1Array;
 
+    private  String buttonText ;
+
+
+    private ProgressDialog progressDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +57,7 @@ public class Profile_Picture extends AppCompatActivity {
 
         imageView = findViewById(R.id.profile_view);
         no_need_button = findViewById(R.id.no_need_btn);
+        buttonText = no_need_button.getText().toString();
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -66,6 +76,7 @@ public class Profile_Picture extends AppCompatActivity {
                         Intent data = result.getData();
                         if (data != null && data.getData() != null) {
                             imageUri = data.getData();
+                            buttonText = "Continue";
                             no_need_button.setText("Continue");
                             StoreImagetoStore();
                         }
@@ -79,6 +90,7 @@ public class Profile_Picture extends AppCompatActivity {
                     if (result.getResultCode() == RESULT_OK) {
                         Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
                         imageUri = saveImageToGallery(photo);
+                        buttonText = "Continue";
                         no_need_button.setText("Continue");
                         StoreImagetoStore();
                     }
@@ -116,25 +128,20 @@ public class Profile_Picture extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String buttonText = no_need_button.getText().toString();
                 if(buttonText.equals("No need")){
-
-                    // ***************************************************** Validation for image *****************************************************
-
                     User userinfo = new User(info1Array[0], info1Array[1], info1Array[2], info1Array[3], info1Array[4],info1Array[5],info1Array[6], " ");
-
                     String uniqueKey = databaseReference.push().getKey();
                     databaseReference.child(uniqueKey).setValue(userinfo);
-
-                    Log.d("success", "User data and image uploaded successfully");
                     Intent intent1 = new Intent(Profile_Picture.this , MainActivity.class);
                     intent1.putExtra("name", info1Array[0]);
                     startActivity(intent1);
+                    finish();
                 }else{
                     uploadUserDataAndImage();
                     Intent intent1 = new Intent(Profile_Picture.this , MainActivity.class);
                     intent1.putExtra("name", info1Array[0]);
                     startActivity(intent1);
+                    finish();
                 }
             }
         });
@@ -160,22 +167,28 @@ public class Profile_Picture extends AppCompatActivity {
 
 
     private void StoreImagetoStore() {
-
         StorageReference imagesRef = FirebaseStorage.getInstance().getReference("images");
-
         imageId = UUID.randomUUID().toString();
 
+        ProgressBar progressBar = findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setProgress(0);
+
         UploadTask uploadTask = imagesRef.child(imageId).putFile(imageUri);
+
+        uploadTask.addOnProgressListener(taskSnapshot -> {
+            double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+            int progressInt = (int) progress;
+            progressBar.setProgress(progressInt);
+        });
 
         uploadTask.addOnSuccessListener(taskSnapshot -> {
             imagesRef.child(imageId).getDownloadUrl().addOnSuccessListener(downloadUri -> {
                 imageUrl = downloadUri.toString();
-                uploadUserDataAndImage();
-
-                Log.e("Successful", "Image upload success. ");
             });
+            progressBar.setVisibility(View.GONE);
         }).addOnFailureListener(exception -> {
-            Log.e("Firebase", "Image upload failed: " + exception.getMessage());
+            progressBar.setVisibility(View.GONE);
         });
     }
 
@@ -186,7 +199,7 @@ public class Profile_Picture extends AppCompatActivity {
             String uniqueKey = myRef.push().getKey();
             myRef.child(uniqueKey).setValue(userinfo);
 
-            Log.d("success", "User data and image uploaded successfully");
+            Toast.makeText(Profile_Picture.this, "User data and image uploaded successfully", Toast.LENGTH_SHORT).show();
         }
     }
 

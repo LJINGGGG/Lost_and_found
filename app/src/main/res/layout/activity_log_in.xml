@@ -53,6 +53,9 @@
                 android:id="@+id/btnlogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/yellow_YM"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:text="Log in" />
 
             <TextView
@@ -61,6 +64,8 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/blue_YM"
                 android:onClick="navigateToAnotherPage"
                 android:text="Sign in - click here" />
 
@@ -68,12 +73,20 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Edit text for email -->
-
-    <!-- Edit text for password -->
-
-    <!-- Button for register with text "Register" -->
-
-    <!-- ProgressBar for loading time -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="422dp"
+        android:layout_height="260dp"
+        android:background="@color/blue_YM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:lottie_autoPlay="true"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/data_4"
+        app:lottie_speed="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

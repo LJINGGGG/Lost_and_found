@@ -1,13 +1,17 @@
 package com.example.myapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Color;
 
+import com.example.myapplication.Event.Create_event;
+import com.example.myapplication.Event.MainActivity_event;
 import com.example.myapplication.nearBy_features.nearBy;
 import com.example.myapplication.user_features.SignIn_;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView lost_view , found_view;
 
-    private String name , filter_country = "Select State" , filter_category = "Select Category";
-
+    private String name_get,userId,ImageUrl , filter_country = "Select State" , filter_category = "Select Category";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +73,21 @@ public class MainActivity extends AppCompatActivity {
             String[] info1Array = info.split(",");
             filter_category = info1Array[0];
             filter_country = info1Array[1];
-        } else {
-            //        name = intent_get.getStringExtra("name");
+        } else if  (intent_get.hasExtra("name")){
+            name_get = intent_get.getStringExtra("name");
         }
 
         getdata(view_);
+        load_userInfo();
 
+
+        // Insert the info
+        SharedPreferences prefQ1 = getSharedPreferences("MySharedPreferences" ,MODE_PRIVATE );
+        SharedPreferences.Editor prefEditor = prefQ1.edit();
+        prefEditor.putString("Name" ,name_get);
+        prefEditor.putString("Key", userId);
+        prefEditor.putString("Image", ImageUrl);
+        prefEditor.commit();
 
 
         found_view.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
                 lost_view.setBackgroundColor(Color.parseColor("#032068"));
                 lost_view.setTextColor(Color.parseColor("#ffffff"));
-//                getdata1();
 
                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 view_.setLayoutManager(layoutManager);
@@ -96,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
         lost_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getdata1();
-
                 lost_view.setBackgroundColor(Color.parseColor("#ffffff"));
                 lost_view.setTextColor(Color.parseColor("#000000"));
 
@@ -110,14 +121,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         filterButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, filter.class);
             startActivity(intent);
+            finish();
         });
 
         eventButton.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this,filter.class);
-//            startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, MainActivity_event.class);
+            startActivity(intent);
+            finish();
         });
 
         homeButton.setOnClickListener(v -> {
@@ -127,20 +141,37 @@ public class MainActivity extends AppCompatActivity {
         });
 
         addButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this,Create_post.class);
-            intent.putExtra("name", name);
-            startActivity(intent);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            dialogBuilder.setTitle("👾 Add Post / Event 👾");
+            dialogBuilder.setPositiveButton("Lost / Found post", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MainActivity.this, Create_post.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            dialogBuilder.setNegativeButton("Event", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(MainActivity.this, Create_event.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
         });
 
         nearbyButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, nearBy.class);
             startActivity(intent);
+            finish();
         });
+
         meButton.setOnClickListener(v -> {
         });
     }
-
-
 
 
     public void getdata(RecyclerView view) {
@@ -190,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }else{
                                 if (post.getLocation().equals(filter_country) && post.getCategory().equals(filter_category)) {
-                                    Toast.makeText(MainActivity.this, "1.", Toast.LENGTH_SHORT).show();
-
                                     Found_postList.add(post);
                                 }
                             }
@@ -207,10 +236,33 @@ public class MainActivity extends AppCompatActivity {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 view.setLayoutManager(layoutManager);
                 view.setAdapter(new dataModel_adapter(MainActivity.this,Lost_postList));
+
+
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle any errors that occur during the data retrieval
+            }
+        });
+    }
+
+    public void load_userInfo() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
+                    String name = friendSnapshot.child("name").getValue(String.class);
+
+                    if (name != null && name.equals(name_get)) {
+                        userId = friendSnapshot.getKey();
+                        ImageUrl = friendSnapshot.child("imageUrI").getValue(String.class);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
     }

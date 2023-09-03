@@ -33,6 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-black"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:backgroundTint="@color/yellow_YM"
                 android:gravity="center"
                 android:text="Normal User" />
 
@@ -42,8 +45,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:fontFamily="sans-serif-black"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:backgroundTint="@color/yellow_YM"
                 android:text="Restaurant / Hotel / School / other" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="396dp"
+        android:layout_height="255dp"
+        android:background="@color/blue_YM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.966"
+        app:lottie_autoPlay="true"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/data_3"
+        app:lottie_speed="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

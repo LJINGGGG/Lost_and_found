@@ -2,6 +2,7 @@ package com.example.myapplication.Event;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,23 +57,24 @@ public class Show_event extends AppCompatActivity {
     ///
     private String url_get;
     private String img_url;
-    private String userkey = "-Nd3aL11ai2JasjmKdIw";
+    private String userkey = " ";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_event);
 
+        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
+        userkey = prefget.getString("Key","NA");
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         Button join_member = findViewById(R.id.button_join);
-        Button return_page = findViewById(R.id.back);
-        Button member_list = findViewById(R.id.member);
+        ImageButton return_page = findViewById(R.id.back);
+        ImageButton member_list = findViewById(R.id.member);
 
         Intent intent = getIntent();
         url_get = intent.getStringExtra("postlink");
         img_url = intent.getStringExtra("image_url");
-
-        Log.d("lookup", "ongetlink" + url_get);
 
         Uri uri_temporary = Uri.parse(url_get);
         String Uri_desiredPart = uri_temporary.getLastPathSegment();
@@ -96,8 +99,6 @@ public class Show_event extends AppCompatActivity {
                 username1 = snapshot.child("name").getValue(String.class);
                 username.setText(username1);
                 prof_url =  snapshot.child("imageUrI").getValue(String.class);
-
-                Log.d("prof_get","porfile link:" + prof_url);
 
                 Glide.with(prof_view.getContext())
                         .load(prof_url) // Assuming childValue is the URL or resource for the image
@@ -155,11 +156,6 @@ public class Show_event extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         String childValue = dataSnapshot.getValue(String.class);
 
-                        Log.d("ImageUri", "Image URI2: " + childValue);
-
-
-
-
                         // Load the image using Glide
                         Glide.with(img_view.getContext())
                                 .load(childValue) // Assuming childValue is the URL or resource for the image
@@ -173,7 +169,6 @@ public class Show_event extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("Firebase", "Error fetching data: " + databaseError.getMessage());
                 }
             });
         }
@@ -199,7 +194,6 @@ public class Show_event extends AppCompatActivity {
                     // Get the current participants count
                     Integer currentCount = currentData.child("number of participants").getValue(Integer.class);
 
-                    Log.d("value","value"+ currentCount);
                     // Increment the count by 1
                     if (currentCount != null) {
                         currentData.child("number of participants").setValue(currentCount + 1);

@@ -3,6 +3,7 @@ package com.example.myapplication.Event;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -17,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -65,7 +68,7 @@ public class Create_event extends AppCompatActivity {
     private String location;
     private String State;
     private String image_video;
-    private String auth_user = "liewYikPUI";
+    private String auth_user = " ";
 
     private TextView textViewStartDate;
     private TextView textViewEndDate;
@@ -81,12 +84,15 @@ public class Create_event extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event);
 
+        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
+        auth_user = prefget.getString("Name","NA");
+
         EditText event_name1 = findViewById(R.id.event_name);
         EditText information1 = findViewById(R.id.info);
         Spinner category1 = findViewById(R.id.category);
         EditText location1 = findViewById(R.id.loc);
         AutoCompleteTextView State1 = findViewById(R.id.state);
-        Button return_main = findViewById(R.id.return_page);
+        ImageButton return_main = findViewById(R.id.return_page);
 
         textViewStartDate = findViewById(R.id.Date);
         textViewEndDate = findViewById(R.id.Date2);
@@ -212,19 +218,12 @@ public class Create_event extends AppCompatActivity {
         if (imageUri != null) {
             imageId = databaseReference.push().getKey();
 
-            Log.d("imageid", "uploadImageToDatabase: " + imageId);
-            Log.d("imageid", "uploadImageToDatabase2: " + imageUrl);
             if (imageId != null) {
                 databaseReference.child(imageId).setValue(imageUrl)
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                // Image URI uploaded to Firebase Realtime Database successfully
-                                Log.d("success", "uploadImageToDatabase: Successful");
-                                Log.d("see", "download link" + imageUrl);
                                 StoreEventData();
                             } else {
-                                // Error uploading image URI
-                                Log.d("no","not sucessful update");
                             }
                         });
             }
@@ -237,8 +236,6 @@ public class Create_event extends AppCompatActivity {
 
         imageId = UUID.randomUUID().toString();
 
-        Log.d("look here","image not get" + imageId);
-
         // Upload the image using putFile()
 
         if (imageUri != null){
@@ -250,14 +247,9 @@ public class Create_event extends AppCompatActivity {
                 // Now you can retrieve the download URL
                 imagesRef.child(imageId).getDownloadUrl().addOnSuccessListener(downloadUri -> {
                     imageUrl = downloadUri.toString();
-
-                    // You can store this URL in your database or use it as needed
-                    Log.d("see", "Successful StoreImagetoStore: " + imageUrl);
                     uploadImageToDatabase();
                 });
             }).addOnFailureListener(exception -> {
-                // Handle upload failure
-                Log.e("Firebase", "Image upload failed: " + exception.getMessage());
             });
         }
         else{
@@ -299,7 +291,6 @@ public class Create_event extends AppCompatActivity {
 
             // Push the data to the database
             DatabaseReference newUserRef = usersRef.push();
-            Log.d("asddd", "user_storeid" + newUserRef );
 
 
             Map<String, Object> eventMap = new HashMap<>();
@@ -315,8 +306,6 @@ public class Create_event extends AppCompatActivity {
             eventMap.put("auth_user", auth_user);
             eventMap.put("post_link",newUserRef.toString());
 
-            Log.d("ImageUri", "Image URI: " + imageUri);
-            Log.d("ImageUri", "Image ID: " + imageId);
             // Get a reference to the Firebase Realtime Database
 
             newUserRef.setValue(eventMap)
@@ -324,7 +313,6 @@ public class Create_event extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             // Data saved successfully
-                            Log.d("?", "Store? successful");
                             Toast.makeText(this, "Successful update and create", Toast.LENGTH_SHORT).show();
                             intent = new Intent(Create_event.this,MainActivity_event.class);
                             startActivity(intent);

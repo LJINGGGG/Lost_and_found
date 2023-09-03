@@ -21,9 +21,7 @@
         <activity
             android:name=".Create_post"
             android:exported="false" />
-        <activity
-            android:name=".share"
-            android:exported="false" />
+
         <activity
             android:name=".filter"
             android:exported="false" />
@@ -34,13 +32,10 @@
             android:name=".user_features.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.MyApplication1">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
         <activity
             android:name=".Event.MainActivity_event"
@@ -60,7 +55,9 @@
         </activity>
         <activity
             android:name=".user_features.Profile_Picture"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MyApplication1"/>
+
         <activity
             android:name=".user_features.UserType"
             android:exported="false" />

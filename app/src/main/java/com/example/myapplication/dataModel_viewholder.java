@@ -20,6 +20,5 @@ public class dataModel_viewholder extends RecyclerView.ViewHolder {
         username = itemView.findViewById(R.id.user_name);
         descripton = itemView.findViewById(R.id.description);
 
-
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -92,6 +93,10 @@ public class nearBy extends AppCompatActivity {
     }
 
     public void load_User_List(RecyclerView recyclerView) {
+
+        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
+        String state = prefget.getString("state","NA");
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -101,7 +106,7 @@ public class nearBy extends AppCompatActivity {
                 for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
                     User user_ = friendSnapshot.getValue(User.class);
 
-                    if ("Other".equals(user_.getUserType())) {
+                    if (("Other".equals(user_.getUserType()) && (state.equals(user_.getState())))) {
                         userList.add(user_);
                     }
                 }

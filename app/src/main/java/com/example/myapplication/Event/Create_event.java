@@ -2,6 +2,7 @@ package com.example.myapplication.Event;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,10 +23,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -281,7 +282,7 @@ public class Create_event extends AppCompatActivity {
 
         if (event_name.isEmpty() || date_start.isEmpty() ||date_end.isEmpty() || information.isEmpty() ||
                 category.isEmpty() || location.isEmpty() || State.isEmpty()) {
-            Toast.makeText(this, "Missing columns: Please fill in all fields.", Toast.LENGTH_SHORT).show();
+            general_dialog("🚫Warning💖" ,"Missing columns: Please fill in all fields.");
             return;
 
         } else {
@@ -312,8 +313,7 @@ public class Create_event extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
 
-                            // Data saved successfully
-                            Toast.makeText(this, "Successful update and create", Toast.LENGTH_SHORT).show();
+                            general_dialog("💖Information💖" ,"Successful update and create");
                             intent = new Intent(Create_event.this,MainActivity_event.class);
                             startActivity(intent);
                             finish();
@@ -376,6 +376,31 @@ public class Create_event extends AppCompatActivity {
     private String getEndDateString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         return dateFormat.format(calendarEndDate.getTime());
+    }
+
+    public void general_dialog(String title , String content){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(title);
+        dialogBuilder.setMessage(content);
+
+        // Set up the dialog buttons
+        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // If ok
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle the Cancel button click (optional)
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
     }
 
 }

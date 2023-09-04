@@ -1,8 +1,10 @@
 package com.example.myapplication;//package com.example.myapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -112,6 +114,7 @@ public class filter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if( (! selectedCategory.isEmpty()) || (! selectedCountry.isEmpty())){
+                    general_dialog("💖Information💖" ,"Successfully filter");
                     Intent intent = new Intent(filter.this,MainActivity.class);
                     intent.putExtra("info_country", selectedCategory + "," +selectedCountry);
                     startActivity(intent);
@@ -127,6 +130,7 @@ public class filter extends AppCompatActivity {
             public void onClick(View v){
                 selectedCategory = " ";
                 selectedCountry = " ";
+                general_dialog("💖Information💖" ,"Successfully reset");
                 Intent intent = new Intent(filter.this,MainActivity.class);
                 intent.putExtra("Category", selectedCategory);
                 intent.putExtra("Country", selectedCountry);
@@ -151,6 +155,32 @@ public class filter extends AppCompatActivity {
 
 
     }
+
+    public void general_dialog(String title , String content){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle(title);
+        dialogBuilder.setMessage(content);
+
+        // Set up the dialog buttons
+        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // If ok
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle the Cancel button click (optional)
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+    }
+
 
 
 }

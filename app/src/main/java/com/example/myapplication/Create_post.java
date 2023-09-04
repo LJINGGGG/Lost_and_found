@@ -149,7 +149,6 @@ public class Create_post extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selectedCountry = (String) parentView.getItemAtPosition(position);
                 if (!selectedCountry.equals("Select State")) {
-                    // Display a toast message with the selected country
                     Toast.makeText(Create_post.this, "Selected State: " + selectedCountry, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -308,7 +307,7 @@ public class Create_post extends AppCompatActivity {
                     databaseReference = FirebaseDatabase.getInstance().getReference("post_found_lost");
                     String uniqueKey = databaseReference.push().getKey();
                     databaseReference.child(uniqueKey).setValue(post);
-                    Toast.makeText(Create_post.this , "Success" , Toast.LENGTH_SHORT).show();
+                    general_dialog("💖Information💖" ,"Successfully create");
 
                 }
             }
@@ -332,7 +331,6 @@ public class Create_post extends AppCompatActivity {
             imagesRef.child(imageId).getDownloadUrl().addOnSuccessListener(downloadUri -> {
                 imageUrl = downloadUri.toString();
                 Log.e("Successful", "Image upload success: " + imageUrl);
-                // Display a toast or any other action to notify the user
                 Toast.makeText(Create_post.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
             });
         }).addOnFailureListener(exception -> {

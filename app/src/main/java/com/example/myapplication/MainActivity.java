@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView lost_view , found_view;
 
-    private String name_get,userId,ImageUrl , filter_country = "Select State" , filter_category = "Select Category";
+    private String name_get,userId,ImageUrl , filter_country = "Select State" ,state, filter_category = "Select Category";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         prefEditor.putString("Name" ,name_get);
         prefEditor.putString("Key", userId);
         prefEditor.putString("Image", ImageUrl);
+        prefEditor.putString("state", state);
         prefEditor.commit();
 
 
@@ -252,6 +253,8 @@ public class MainActivity extends AppCompatActivity {
                     if (name != null && name.equals(name_get)) {
                         userId = friendSnapshot.getKey();
                         ImageUrl = friendSnapshot.child("imageUrI").getValue(String.class);
+                        state = friendSnapshot.child("state").getValue(String.class);
+                        state = friendSnapshot.child("state").getValue(String.class);
                     }
                 }
             }

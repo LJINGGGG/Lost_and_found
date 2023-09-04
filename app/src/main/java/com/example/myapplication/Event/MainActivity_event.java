@@ -62,7 +62,6 @@ public class MainActivity_event extends AppCompatActivity {
                 intent.putExtra("event_name", eventName);
                 intent.putExtra("postlink", post_link1);
 
-
                 startActivity(intent);
             }
         });

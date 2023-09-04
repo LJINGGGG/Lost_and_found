@@ -68,6 +68,9 @@ public class Show_event extends AppCompatActivity {
 
         SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
         userkey = prefget.getString("Key","NA");
+        username1 = prefget.getString("Name" , "NA");
+        img_url = prefget.getString("Image","NA");
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -113,31 +116,16 @@ public class Show_event extends AppCompatActivity {
         if(post_user == null){
             post_user ="";
         }
-        DatabaseReference user_get = databaseReference.child("User").child(post_user);
-        user_get.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        username.setText(username1);
+        Glide.with(prof_view.getContext())
+                .load(img_url) // Assuming childValue is the URL or resource for the image
+                .placeholder(R.drawable.place_holder_image) // Add a placeholder image resource
+                .error(R.drawable.error_image) // Add an error image resource
+                .into(prof_view);
 
 
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("namepost_user", "Name_post: "+post_user);
-                username1 = snapshot.child("name").getValue(String.class);
-                username.setText(username1);
-                Log.d("namepost", "Name: "+username1);
-                prof_url =  snapshot.child("imageUrI").getValue(String.class);
-                Log.d("namepostimg", "Nameimg: "+prof_url);
 
-                Glide.with(prof_view.getContext())
-                        .load(prof_url) // Assuming childValue is the URL or resource for the image
-                        .placeholder(R.drawable.place_holder_image) // Add a placeholder image resource
-                        .error(R.drawable.error_image) // Add an error image resource
-                        .into(prof_view);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         DatabaseReference userref1 = databaseReference.child("Event").child(Uri_desiredPart);
 

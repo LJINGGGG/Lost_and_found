@@ -46,21 +46,23 @@ import java.util.Calendar;
 
 public class SignIn_ extends AppCompatActivity {
 
-    private EditText emailTextView, passwordTextView, date , usernameTextView , phoneTextView  , stateTextView;
+    private EditText emailTextView, passwordTextView, date, usernameTextView, phoneTextView, stateTextView;
 
     private DatePickerDialog datePickerDialog;
 
     private GoogleSignInClient mGoogleSignInClient;
 
-    private String userType_ ,info ,country , state;
+    private String userType_, info, country, state;
 
-    private Button Btn , Btn1;
+    private Button Btn, Btn1;
     private StorageReference storageReference;
 
     private FirebaseAuth mAuth;
     private ActivityResultLauncher<Intent> googleSignInLauncher;
 
     private ArrayList<User> userList = new ArrayList<>();
+
+    private String user , pass , phone_number , name ,date_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,6 @@ public class SignIn_ extends AppCompatActivity {
         phoneTextView = findViewById(R.id.phone);
         Spinner countrySpinner = findViewById(R.id.county_spinner);
 
-
         Btn = findViewById(R.id.btnregister);
         Btn1 = findViewById(R.id.btngoogle);
 
@@ -130,7 +131,6 @@ public class SignIn_ extends AppCompatActivity {
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
             }
-
         });
 
         String[] countries ={
@@ -167,67 +167,28 @@ public class SignIn_ extends AppCompatActivity {
             }
         });
 
-
         // Set on Click Listener on Registration button
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                String user = emailTextView.getText().toString().trim();
-                String pass = passwordTextView.getText().toString().trim();
-                String phone_number = phoneTextView.getText().toString().trim();
-                String name = usernameTextView.getText().toString().trim();
-                String date_ = date.getText().toString().trim();
+            public void onClick(View v) {
+                user = emailTextView.getText().toString().trim();
+                pass = passwordTextView.getText().toString().trim();
+                phone_number = phoneTextView.getText().toString().trim();
+                name = usernameTextView.getText().toString().trim();
+                date_ = date.getText().toString().trim();
                 country = "Malaysia";
 
-
                 // Check if any of the fields are empty
-                if (user.isEmpty() || pass.isEmpty()  ||
-                        phone_number.isEmpty()  || name.isEmpty() || date_.isEmpty() || country.isEmpty() || state.isEmpty()) {
+                if (user.isEmpty() || pass.isEmpty() || phone_number.isEmpty() || name.isEmpty() || date_.isEmpty() || country.isEmpty() || state.isEmpty()) {
                     general_analog(SignIn_.this, "🚫 Missing Information 🚫", "Please fill in all fields.");
                     return;
                 }
 
                 for (User user1 : userList) {
                     if (user1.getName().equalsIgnoreCase(name.trim())) {
-                        general_analog(SignIn_.this, "🚫 Duplicate Name 🚫", "A friend with the same name already exists.");
+                        general_analog(SignIn_.this, "🚫 Duplicate Name 🚫", "Please fill in again.");
                         return;
                     }
-                }
-
-
-                if(! (user.isEmpty()) && !(pass.isEmpty()) && !(phone_number.isEmpty()) &&
-                        !(name.isEmpty()) && !(date_.isEmpty() && !(country.isEmpty()) && !(state.isEmpty()))){
-
-                    mAuth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if(task.isSuccessful()){
-
-
-                                info = name + ","+ user + "," + date_+"," + phone_number+","+country+"," + state+","+ userType_ ;
-
-                                Toast.makeText(SignIn_.this , "Successful" , Toast.LENGTH_SHORT).show();
-                                Intent intent1 = new Intent(SignIn_.this , Profile_Picture.class);
-                                intent1.putExtra("info", info);
-                                startActivity(intent1);
-                                finish();
-
-                                emailTextView.setText("");
-                                passwordTextView.setText("");
-                                phoneTextView.setText("");
-                                usernameTextView.setText("");
-                                date.setText("");
-
-                            }else{
-                                Toast.makeText(SignIn_.this , "SignUp Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else{
-
-                    //Incorrect display (analog dialog) *******************
                 }
             }
         });
@@ -239,7 +200,8 @@ public class SignIn_ extends AppCompatActivity {
             }
         });
     }
-    private void register_google(){
+
+    private void register_google() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         googleSignInLauncher.launch(signInIntent);
     }
@@ -250,14 +212,20 @@ public class SignIn_ extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        info = acct.getDisplayName() + ","+ acct.getEmail() + "," + " "+"," + " " +","+ " " +"," +  " " +","+ userType_ ;
 
-                        Toast.makeText(SignIn_.this , "Successful" , Toast.LENGTH_SHORT).show();
-                        Intent intent2 = new Intent(SignIn_.this , Profile_Picture.class);
+                        for (User user1 : userList) {
+                            if (user1.getEmail().equalsIgnoreCase(acct.getEmail())) {
+                                general_analog(SignIn_.this, "🚫 Warning 🚫", "Already register before");
+                                return;
+                            }
+                        }
+
+                        info = acct.getDisplayName() + "," + acct.getEmail() + "," + " " + "," + " " + "," + " " + "," + " " + "," + userType_;
+                        Toast.makeText(SignIn_.this, "Successful", Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(SignIn_.this, Profile_Picture.class);
                         intent2.putExtra("info", info);
                         startActivity(intent2);
                         finish();
-
                     } else {
                         if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                             Toast.makeText(SignIn_.this, "This Google account is already linked to another account.", Toast.LENGTH_SHORT).show();
@@ -275,7 +243,8 @@ public class SignIn_ extends AppCompatActivity {
                 .build();
     }
 
-    public void load_UserList(){
+
+    public void load_UserList() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -285,13 +254,12 @@ public class SignIn_ extends AppCompatActivity {
                     User user = friendSnapshot.getValue(User.class);
                     userList.add(user);
                 }
-
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle database error
             }
-
         });
     }
 

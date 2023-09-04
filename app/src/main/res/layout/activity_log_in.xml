@@ -14,10 +14,10 @@
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444">
+        app:layout_constraintVertical_bias="0.368">
 
         <LinearLayout
             android:layout_width="286dp"
@@ -54,9 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/yellow_YM"
+                android:text="Log in"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:text="Log in" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/clickableText"
@@ -64,10 +64,10 @@
                 android:layout_height="45dp"
                 android:clickable="true"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/blue_YM"
                 android:onClick="navigateToAnotherPage"
-                android:text="Sign in - click here" />
+                android:text="Sign in - click here"
+                android:textColor="@color/blue_YM"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -80,6 +80,7 @@
         android:background="@color/blue_YM"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"

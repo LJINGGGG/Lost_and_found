@@ -104,7 +104,7 @@ public class Create_event extends AppCompatActivity {
         CreateEventBtn = findViewById(R.id.button2);
         imageView = findViewById(R.id.imageView2);
 
-        String[] values = {"Value 1", "Value 2", "Value 3", "Value 4", "Value 5"};
+        String[] values = {"Electronics", "Clothing and Accessories", "Personal Items", "Bags and Luggage", "Others"};
 
         // Initialize the Spinner
 

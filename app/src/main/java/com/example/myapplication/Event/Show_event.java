@@ -39,7 +39,6 @@ import com.google.firebase.database.ValueEventListener;
 public class Show_event extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
-    private FirebaseAuth auth;
 
     private Intent intent2;
 
@@ -58,6 +57,7 @@ public class Show_event extends AppCompatActivity {
     private String prof_url;
 
     ///
+    private String post_user = "";
     private String url_get;
     private String img_url;
     private String userkey = " ";
@@ -83,6 +83,7 @@ public class Show_event extends AppCompatActivity {
         String Uri_desiredPart = uri_temporary.getLastPathSegment();
 
 
+
         ImageView img_view = findViewById(R.id.imageView_event);
         ImageView prof_view = findViewById(R.id.user_profile);
         TextView username = findViewById(R.id.User_name);
@@ -94,14 +95,36 @@ public class Show_event extends AppCompatActivity {
         TextView event_s = findViewById(R.id.State);
         TextView event_p = findViewById(R.id.participants);
 
-        DatabaseReference user_get = databaseReference.child("User").child(userkey);
+        DatabaseReference post_user_ref = databaseReference.child("Event").child(Uri_desiredPart);
 
-        user_get.addListenerForSingleValueEvent(new ValueEventListener() {
+        post_user_ref.child("auth_user").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                post_user = snapshot.getValue(String.class);
+                Log.d("post-user", "post-user: " + post_user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        if(post_user == null){
+            post_user ="";
+        }
+        DatabaseReference user_get = databaseReference.child("User").child(post_user);
+        user_get.addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("namepost_user", "Name_post: "+post_user);
                 username1 = snapshot.child("name").getValue(String.class);
                 username.setText(username1);
+                Log.d("namepost", "Name: "+username1);
                 prof_url =  snapshot.child("imageUrI").getValue(String.class);
+                Log.d("namepostimg", "Nameimg: "+prof_url);
 
                 Glide.with(prof_view.getContext())
                         .load(prof_url) // Assuming childValue is the URL or resource for the image
@@ -116,9 +139,9 @@ public class Show_event extends AppCompatActivity {
             }
         });
 
-        DatabaseReference userref = databaseReference.child("Event").child(Uri_desiredPart);
+        DatabaseReference userref1 = databaseReference.child("Event").child(Uri_desiredPart);
 
-        userref.addListenerForSingleValueEvent(new ValueEventListener() {
+        userref1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot eventSnapshot : snapshot.getChildren()) {

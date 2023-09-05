@@ -190,6 +190,41 @@ public class SignIn_ extends AppCompatActivity {
                         return;
                     }
                 }
+
+                if(! (user.isEmpty()) && !(pass.isEmpty()) && !(phone_number.isEmpty()) &&
+                        !(name.isEmpty()) && !(date_.isEmpty() && !(country.isEmpty()) && !(state.isEmpty()))){
+
+                    mAuth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if(task.isSuccessful()){
+
+
+                                info = name + ","+ user + "," + date_+"," + phone_number+","+country+"," + state+","+ userType_ ;
+
+                                Toast.makeText(SignIn_.this , "Successful" , Toast.LENGTH_SHORT).show();
+                                Intent intent1 = new Intent(SignIn_.this , Profile_Picture.class);
+                                intent1.putExtra("info", info);
+                                startActivity(intent1);
+                                finish();
+
+                                emailTextView.setText("");
+                                passwordTextView.setText("");
+                                phoneTextView.setText("");
+                                usernameTextView.setText("");
+                                date.setText("");
+
+                            }else{
+                                Toast.makeText(SignIn_.this , "SignUp Failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else{
+
+                    //Incorrect display (analog dialog) *******************
+                }
+
             }
         });
 

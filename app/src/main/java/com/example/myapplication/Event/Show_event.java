@@ -59,18 +59,12 @@ public class Show_event extends AppCompatActivity {
     ///
     private String post_user = "";
     private String url_get;
-    private String img_url;
+    private String img_url , state_show;
     private String userkey = " ";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_event);
-
-        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
-        userkey = prefget.getString("Key","NA");
-        username1 = prefget.getString("Name" , "NA");
-        img_url = prefget.getString("Image","NA");
-
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -81,6 +75,11 @@ public class Show_event extends AppCompatActivity {
         Intent intent = getIntent();
         url_get = intent.getStringExtra("postlink");
         img_url = intent.getStringExtra("image_url");
+        userkey = intent.getStringExtra("show_userId");
+        username1= intent.getStringExtra("show_name");
+        prof_url = intent.getStringExtra("show_ImageUrl");
+        state_show = intent.getStringExtra("show_state");
+
 
         Uri uri_temporary = Uri.parse(url_get);
         String Uri_desiredPart = uri_temporary.getLastPathSegment();
@@ -259,7 +258,8 @@ public class Show_event extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent3 = new Intent(Show_event.this, MainActivity_event.class);
-
+                String user_info = userkey + "," + username1 + "," + prof_url +"," + state_show;
+                intent3.putExtra("user_info", user_info);
                 startActivity(intent3);
             }
         });
@@ -270,9 +270,6 @@ public class Show_event extends AppCompatActivity {
                 intent2 = new Intent(Show_event.this, Member_list.class);
                 intent2.putExtra("image_url", img_url);
                 intent2.putExtra("postlink", url_get);
-
-
-
                 startActivity(intent2);
             }
         });

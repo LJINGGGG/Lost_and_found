@@ -88,6 +88,13 @@ public class Create_event extends AppCompatActivity {
         SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
         auth_user = prefget.getString("Name","NA");
 
+        Intent intent_get = getIntent();
+        if  (intent_get.hasExtra("user_info")){
+            String user_info = intent_get.getStringExtra("user_info");
+            String[] user_info_Array = user_info.split(",");
+            auth_user = user_info_Array[1];
+        }
+
         EditText event_name1 = findViewById(R.id.event_name);
         EditText information1 = findViewById(R.id.info);
         Spinner category1 = findViewById(R.id.category);

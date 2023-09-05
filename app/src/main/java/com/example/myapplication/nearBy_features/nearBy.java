@@ -38,10 +38,23 @@ public class nearBy extends AppCompatActivity {
     private List<User> userList = new ArrayList<>();
     private nearBy_Adapter nearByAdapter;
 
+    private String name , profile_imageUrl , state , user_info , userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_near_by);
+
+        Intent intent_get = getIntent();
+        if  (intent_get.hasExtra("user_info")){
+            String user_info = intent_get.getStringExtra("user_info");
+            String[] user_info_Array = user_info.split(",");
+            userId = user_info_Array[0];
+            name = user_info_Array[1];
+            profile_imageUrl = user_info_Array[2];
+            state = user_info_Array[3];
+        }
+        user_info = userId + "," + name + "," + profile_imageUrl +"," + state;
 
         RecyclerView recyclerView = findViewById(R.id.nearBy_RecycleView);
         ImageButton eventButton = findViewById(R.id.EventButton);
@@ -54,11 +67,15 @@ public class nearBy extends AppCompatActivity {
 
         eventButton.setOnClickListener(v -> {
             Intent intent = new Intent(nearBy.this, MainActivity_event.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
+            finish();
+
         });
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(nearBy.this,MainActivity.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
@@ -69,6 +86,7 @@ public class nearBy extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(nearBy.this, Create_post.class);
+                    intent.putExtra("user_info", user_info);
                     startActivity(intent);
                 }
             });
@@ -76,6 +94,7 @@ public class nearBy extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(nearBy.this, Create_event.class);
+                    intent.putExtra("user_info", user_info);
                     startActivity(intent);
                 }
             });
@@ -85,6 +104,7 @@ public class nearBy extends AppCompatActivity {
 
         nearbyButton.setOnClickListener(v -> {
             Intent intent = new Intent(nearBy.this, nearBy.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
         meButton.setOnClickListener(v -> {
@@ -93,9 +113,6 @@ public class nearBy extends AppCompatActivity {
     }
 
     public void load_User_List(RecyclerView recyclerView) {
-
-        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
-        String state = prefget.getString("state","NA");
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
 

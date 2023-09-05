@@ -35,11 +35,25 @@ public class MainActivity_event extends AppCompatActivity {
     private MyAdapter adapter;
     private List<YourDataModel> data = new ArrayList<>();
 
+    private String userId , name , profile_imageUrl , state;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_event);
+
+        Intent intent_get = getIntent();
+        if  (intent_get.hasExtra("user_info")){
+            String user_info = intent_get.getStringExtra("user_info");
+            String[] user_info_Array = user_info.split(",");
+            userId = user_info_Array[0];
+            name = user_info_Array[1];
+            profile_imageUrl = user_info_Array[2];
+            state = user_info_Array[3];
+        }
+        String user_info = userId + "," + name + "," + profile_imageUrl +"," + state;
+
 
         ImageButton eventButton = findViewById(R.id.EventButton);
         ImageButton homeButton = findViewById(R.id.HomeButton);
@@ -61,6 +75,10 @@ public class MainActivity_event extends AppCompatActivity {
                 intent.putExtra("image_url", imageUrl);
                 intent.putExtra("event_name", eventName);
                 intent.putExtra("postlink", post_link1);
+                intent.putExtra("show_userId",userId);
+                intent.putExtra("show_name",name);
+                intent.putExtra("show_ImageUrl",userId);
+                intent.putExtra("show_state",state);
 
                 startActivity(intent);
             }
@@ -94,11 +112,13 @@ public class MainActivity_event extends AppCompatActivity {
 
         eventButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity_event.this, MainActivity_event.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity_event.this,MainActivity.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
@@ -109,6 +129,7 @@ public class MainActivity_event extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity_event.this, Create_post.class);
+                    intent.putExtra("user_info", user_info);
                     startActivity(intent);
                 }
             });
@@ -116,6 +137,7 @@ public class MainActivity_event extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity_event.this, Create_event.class);
+                    intent.putExtra("user_info", user_info);
                     startActivity(intent);
                 }
             });
@@ -125,6 +147,7 @@ public class MainActivity_event extends AppCompatActivity {
 
         nearbyButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity_event.this, nearBy.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 

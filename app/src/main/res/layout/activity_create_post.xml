@@ -40,7 +40,6 @@
             android:background="@color/blue_YM"
             android:src="@drawable/baseline_done_24" />
 
-
     </LinearLayout>
 
     <LinearLayout

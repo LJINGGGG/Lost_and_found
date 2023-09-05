@@ -68,9 +68,13 @@ public class Create_post extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        SharedPreferences prefget = getSharedPreferences("MySharedPreferences",0);
-        name = prefget.getString("Name","NA");
-        profile_imageUrl = prefget.getString("Image","NA");
+        Intent intent_get = getIntent();
+        if  (intent_get.hasExtra("user_info")){
+            String user_info = intent_get.getStringExtra("user_info");
+            String[] user_info_Array = user_info.split(",");
+            name = user_info_Array[1];
+            profile_imageUrl = user_info_Array[2];
+        }
 
         CircleImageView userImageView = findViewById(R.id.user_profile);
         if (profile_imageUrl != null) {

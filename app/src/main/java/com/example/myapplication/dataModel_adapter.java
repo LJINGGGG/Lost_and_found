@@ -33,10 +33,14 @@ public class dataModel_adapter extends RecyclerView.Adapter<dataModel_viewholder
     @Override
     public void onBindViewHolder(@NonNull dataModel_viewholder holder, int position) {
 
-        SharedPreferences prefget =  context.getSharedPreferences("MySharedPreferences",0);
-//        String name = prefget.getString("Name","NA");
+        SharedPreferences prefget =  context.getSharedPreferences("Temporary Preferences",0);
         String profile_imageUrl = prefget.getString("Image","NA");
-
+        SharedPreferences.Editor editor = prefget.edit();
+        editor.remove("Name");
+        editor.remove("Key");
+        editor.remove("state");
+        editor.remove("Image");
+        editor.apply();
 
 
         holder.username.setText(items.get(position).getName());

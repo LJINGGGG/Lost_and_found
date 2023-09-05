@@ -67,18 +67,39 @@ public class LogIn_ extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-                                        Toast.makeText(LogIn_.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                        getname(email);
-                                        Intent intent = new Intent(LogIn_.this, MainActivity.class);
-                                        intent.putExtra("name", user_name);
-                                        startActivity(intent);
-                                        finish();
+                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                userList.clear();
+                                                for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
+                                                    User user_ = friendSnapshot.getValue(User.class);
+
+                                                    if (email.equals(user_.getEmail())) {
+                                                        user_name = user_.getName();
+                                                        Toast.makeText(LogIn_.this, user_name, Toast.LENGTH_SHORT).show();
+
+                                                        // Now that you have the user_name, you can proceed with the intent.
+                                                        Intent intent = new Intent(LogIn_.this, MainActivity.class);
+                                                        intent.putExtra("name", user_name);
+                                                        startActivity(intent);
+                                                        finish();
+                                                        return; // Exit the callback once you have the user_name.
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                // Handle database error here if needed.
+                                            }
+                                        });
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(LogIn_.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LogIn_.this, "Login Failed . Please Try Again", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     } else {
@@ -103,24 +124,26 @@ public class LogIn_ extends AppCompatActivity {
 
     }
 
-    private void getname(String email) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                userList.clear();
-                for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
-                    User user_ = friendSnapshot.getValue(User.class);
-
-                    if (email.equals(user_.getEmail())) {
-                        user_name = user_.getName();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
+//    private void getname(String email) {
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                userList.clear();
+//                for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
+//                    User user_ = friendSnapshot.getValue(User.class);
+//
+//                    if (email.equals(user_.getEmail())) {
+//                        user_name = user_.getName();
+//                        Toast.makeText(LogIn_.this, user_name + "+" + email , Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
+//    }
 
 }

@@ -23,6 +23,8 @@ import android.graphics.Color;
 import com.example.myapplication.Event.Create_event;
 import com.example.myapplication.Event.MainActivity_event;
 import com.example.myapplication.nearBy_features.nearBy;
+import com.example.myapplication.user_features.LogIn_;
+import com.example.myapplication.user_features.Profile_Picture;
 import com.example.myapplication.user_features.SignIn_;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView lost_view , found_view;
 
-    private String name_get,userId,ImageUrl , filter_country = "Select State" ,state, filter_category = "Select Category";
+    private String name_get,userId,ImageUrl , filter_country = "Select State" ,state, filter_category = "Select Category" , user_info;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,15 @@ public class MainActivity extends AppCompatActivity {
         found_view = findViewById(R.id.textView2);
         lost_view = findViewById(R.id.textView3);
 
+
+        SharedPreferences prefQ1 = getSharedPreferences("Temporary Preferences" ,MODE_PRIVATE );
+        SharedPreferences.Editor prefEditor = prefQ1.edit();
+        prefEditor.putString("Name" ,name_get);
+        prefEditor.putString("Key", userId);
+        prefEditor.putString("Image", ImageUrl);
+        prefEditor.putString("state", state);
+        prefEditor.commit();
+
         Intent intent_get = getIntent();
         if (intent_get.hasExtra("info_country")) {
             String info = intent_get.getStringExtra("info_country");
@@ -75,21 +88,12 @@ public class MainActivity extends AppCompatActivity {
             filter_country = info1Array[1];
         } else if  (intent_get.hasExtra("name")){
             name_get = intent_get.getStringExtra("name");
+            Toast.makeText(MainActivity.this, name_get, Toast.LENGTH_SHORT).show();
+
         }
 
         getdata(view_);
         load_userInfo();
-
-
-        // Insert the info
-        SharedPreferences prefQ1 = getSharedPreferences("MySharedPreferences" ,MODE_PRIVATE );
-        SharedPreferences.Editor prefEditor = prefQ1.edit();
-        prefEditor.putString("Name" ,name_get);
-        prefEditor.putString("Key", userId);
-        prefEditor.putString("Image", ImageUrl);
-        prefEditor.putString("state", state);
-        prefEditor.commit();
-
 
         found_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +103,15 @@ public class MainActivity extends AppCompatActivity {
 
                 lost_view.setBackgroundColor(Color.parseColor("#032068"));
                 lost_view.setTextColor(Color.parseColor("#ffffff"));
+
+                SharedPreferences prefQ1 = getSharedPreferences("Temporary Preferences" ,MODE_PRIVATE );
+                SharedPreferences.Editor prefEditor = prefQ1.edit();
+                prefEditor.putString("Name" ,name_get);
+                prefEditor.putString("Key", userId);
+                prefEditor.putString("Image", ImageUrl);
+                prefEditor.putString("state", state);
+                prefEditor.commit();
+
 
                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 view_.setLayoutManager(layoutManager);
@@ -116,6 +129,15 @@ public class MainActivity extends AppCompatActivity {
                 found_view.setBackgroundColor(Color.parseColor("#032068"));
                 found_view.setTextColor(Color.parseColor("#ffffff"));
 
+                SharedPreferences prefQ1 = getSharedPreferences("Temporary Preferences" ,MODE_PRIVATE );
+                SharedPreferences.Editor prefEditor = prefQ1.edit();
+                prefEditor.putString("Name" ,name_get);
+                prefEditor.putString("Key", userId);
+                prefEditor.putString("Image", ImageUrl);
+                prefEditor.putString("state", state);
+                prefEditor.commit();
+
+
                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 view_.setLayoutManager(layoutManager);
                 view_.setAdapter(new dataModel_adapter(MainActivity.this,Lost_postList));
@@ -125,16 +147,19 @@ public class MainActivity extends AppCompatActivity {
 
         filterButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, filter.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
         eventButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MainActivity_event.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this,MainActivity.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
@@ -145,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity.this, Create_post.class);
+                    intent.putExtra("user_info", user_info);
                     startActivity(intent);
                 }
             });
@@ -152,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity.this, Create_event.class);
+                    intent.putExtra("user_info", user_info);
                     startActivity(intent);
                 }
             });
@@ -161,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
         nearbyButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, nearBy.class);
+            intent.putExtra("user_info", user_info);
             startActivity(intent);
         });
 
@@ -254,7 +282,10 @@ public class MainActivity extends AppCompatActivity {
                         userId = friendSnapshot.getKey();
                         ImageUrl = friendSnapshot.child("imageUrI").getValue(String.class);
                         state = friendSnapshot.child("state").getValue(String.class);
-                        state = friendSnapshot.child("state").getValue(String.class);
+                        user_info = userId + "," + name_get + "," + ImageUrl +"," + state;
+
+                        Toast.makeText(MainActivity.this, userId + "+" + name_get + "+" + ImageUrl + "+" + state, Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
@@ -263,6 +294,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 
 

@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
             filter_country = info1Array[1];
         } else if  (intent_get.hasExtra("name")){
             name_get = intent_get.getStringExtra("name");
-            Toast.makeText(MainActivity.this, name_get, Toast.LENGTH_SHORT).show();
 
         }
 
@@ -283,8 +282,6 @@ public class MainActivity extends AppCompatActivity {
                         ImageUrl = friendSnapshot.child("imageUrI").getValue(String.class);
                         state = friendSnapshot.child("state").getValue(String.class);
                         user_info = userId + "," + name_get + "," + ImageUrl +"," + state;
-
-                        Toast.makeText(MainActivity.this, userId + "+" + name_get + "+" + ImageUrl + "+" + state, Toast.LENGTH_SHORT).show();
 
                     }
                 }

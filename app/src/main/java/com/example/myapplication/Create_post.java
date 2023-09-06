@@ -364,22 +364,6 @@ public class Create_post extends AppCompatActivity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setTitle(title);
         dialogBuilder.setMessage(content);
-
-        // Set up the dialog buttons
-        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // If ok
-            }
-        });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle the Cancel button click (optional)
-                dialog.dismiss();
-            }
-        });
-
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
 

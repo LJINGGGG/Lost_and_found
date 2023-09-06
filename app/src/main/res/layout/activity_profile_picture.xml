@@ -11,27 +11,25 @@
         android:id="@+id/profile_view"
         android:layout_width="73dp"
         android:layout_height="46dp"
-        android:layout_marginTop="144dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginTop="64dp"
         android:src="@drawable/baseline_menu_open_24"
-        app:layout_constraintBottom_toTopOf="@+id/lottieAnimationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.775"
+        app:layout_constraintHorizontal_bias="0.735"
         app:layout_constraintStart_toStartOf="@+id/lottieAnimationView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView1" />
 
     <Button
         android:id="@+id/no_need_btn"
         android:layout_width="118dp"
         android:layout_height="58dp"
-        android:layout_marginTop="476dp"
+        android:layout_marginTop="448dp"
         android:backgroundTint="@color/yellow_YM"
         android:text="No need"
         android:textColor="@color/black"
         android:textColorHighlight="@color/yellow_YM"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.832"
+        app:layout_constraintHorizontal_bias="0.904"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,29 +39,95 @@
         android:layout_width="190dp"
         android:layout_height="32dp"
         android:layout_marginTop="36dp"
-        android:progressTint="@color/white"
         android:visibility="gone"
+        android:progressBackgroundTint="@color/blue_YM"
+        android:progressTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/no_need_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_view"
-        app:layout_constraintVertical_bias="0.935" />
+        app:layout_constraintVertical_bias="0.807" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
         android:layout_width="313dp"
         android:layout_height="194dp"
-        android:background="#ffffff"
+        android:progressBackgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.632"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.404"
+        app:layout_constraintVertical_bias="0.301"
         app:lottie_autoPlay="true"
         app:lottie_cacheComposition="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/data_1"
         app:lottie_speed="1" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView3"
+        android:layout_width="116dp"
+        android:layout_height="67dp"
+        android:progressBackgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.728"
+        app:lottie_autoPlay="true"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/data_6"
+        app:lottie_speed="1" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView2"
+        android:layout_width="116dp"
+        android:layout_height="67dp"
+        android:progressBackgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.112"
+        app:lottie_autoPlay="true"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/data_6"
+        app:lottie_speed="1" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView1"
+        android:layout_width="116dp"
+        android:layout_height="67dp"
+        android:progressBackgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.042"
+        app:lottie_autoPlay="true"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/data_6"
+        app:lottie_speed="1" />
+
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/blue_YM"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

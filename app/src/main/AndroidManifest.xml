@@ -12,52 +12,53 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/icon_pic"
+        android:label="Lost and Found App"
+        android:roundIcon="@drawable/icon_pic"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".nearBy_features.Selected_Item"
+            android:exported="false">
+        </activity>
+
+        <activity
             android:name=".Create_post"
             android:exported="false" />
-
         <activity
             android:name=".filter"
             android:exported="false" />
         <activity
             android:name=".nearBy_features.nearBy"
-            android:exported="false" />
+            android:exported="false"></activity>
         <activity
             android:name=".user_features.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.MyApplication1">
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
+
+
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
         <activity
             android:name=".Event.MainActivity_event"
-            android:exported="true">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Event.Show_event"
-            android:exported="true">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Event.Create_event"
-            android:exported="true">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".Event.Member_list"
-            android:exported="true">
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".user_features.Profile_Picture"
             android:exported="false"
-            android:theme="@style/Theme.MyApplication1"/>
-
+            android:theme="@style/Theme.MyApplication1" />
         <activity
             android:name=".user_features.UserType"
             android:exported="false" />
@@ -72,11 +73,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

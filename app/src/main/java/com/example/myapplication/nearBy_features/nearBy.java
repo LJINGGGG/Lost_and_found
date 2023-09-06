@@ -132,18 +132,8 @@ public class nearBy extends AppCompatActivity {
                 nearByAdapter = new nearBy_Adapter(nearBy.this ,userList ,new MyAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-//                        // Handle item click here
-//                        YourDataModel clickedItem = data.get(position);
-//                        String imageUrl = clickedItem.getImageResource();
-//                        String eventName = clickedItem.getDescription();
-//                        String post_link1 = clickedItem.getLink();
-
-                        Intent intent = new Intent(nearBy.this, MainActivity.class);
-//                        intent.putExtra("image_url", imageUrl);
-//                        intent.putExtra("event_name", eventName);
-//                        intent.putExtra("postlink", post_link1);
-//
-//                        Log.d("Postlink","get post link:"+ post_link1);
+                        Intent intent = new Intent(nearBy.this, Selected_Item.class);
+                        intent.putExtra("nearBy_name", name);
                         startActivity(intent);
                     }
                 });

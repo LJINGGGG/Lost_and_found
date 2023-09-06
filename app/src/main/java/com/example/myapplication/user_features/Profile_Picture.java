@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
@@ -170,7 +171,11 @@ public class Profile_Picture extends AppCompatActivity {
         StorageReference imagesRef = FirebaseStorage.getInstance().getReference("images");
         imageId = UUID.randomUUID().toString();
 
+        TextView progressText = findViewById(R.id.progressText);
+
         ProgressBar progressBar = findViewById(R.id.progressBar2);
+        progressText.setText("Please wait...");
+        progressText.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setProgress(0);
 
@@ -186,6 +191,7 @@ public class Profile_Picture extends AppCompatActivity {
             imagesRef.child(imageId).getDownloadUrl().addOnSuccessListener(downloadUri -> {
                 imageUrl = downloadUri.toString();
             });
+            progressText.setText("Sucess Uploaded Image ✔");
             progressBar.setVisibility(View.GONE);
         }).addOnFailureListener(exception -> {
             progressBar.setVisibility(View.GONE);
@@ -199,7 +205,6 @@ public class Profile_Picture extends AppCompatActivity {
             String uniqueKey = myRef.push().getKey();
             myRef.child(uniqueKey).setValue(userinfo);
 
-            Toast.makeText(Profile_Picture.this, "User data and image uploaded successfully", Toast.LENGTH_SHORT).show();
         }
     }
 

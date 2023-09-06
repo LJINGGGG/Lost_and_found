@@ -124,26 +124,4 @@ public class LogIn_ extends AppCompatActivity {
 
     }
 
-//    private void getname(String email) {
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("User");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                userList.clear();
-//                for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
-//                    User user_ = friendSnapshot.getValue(User.class);
-//
-//                    if (email.equals(user_.getEmail())) {
-//                        user_name = user_.getName();
-//                        Toast.makeText(LogIn_.this, user_name + "+" + email , Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
-//    }
-
 }

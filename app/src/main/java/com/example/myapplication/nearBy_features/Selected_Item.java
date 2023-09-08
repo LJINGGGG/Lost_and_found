@@ -29,7 +29,7 @@ import java.util.List;
 
 public class Selected_Item extends AppCompatActivity {
 
-    private String nearby_name = "YM";
+    private String nearby_name = " ";
     private List<Lost_Found_Post> lost_post_list = new ArrayList<>();
     private List<Lost_Found_Post> found_post_list = new ArrayList<>();
     private List<YourDataModel> event_List = new ArrayList<>();
@@ -64,7 +64,6 @@ public class Selected_Item extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Selected_Item.this, nearBy.class);
                 startActivity(intent);
-                finish();
             }
         });
 

@@ -69,8 +69,6 @@ public class nearBy extends AppCompatActivity {
             Intent intent = new Intent(nearBy.this, MainActivity_event.class);
             intent.putExtra("user_info", user_info);
             startActivity(intent);
-            finish();
-
         });
 
         homeButton.setOnClickListener(v -> {
@@ -122,7 +120,6 @@ public class nearBy extends AppCompatActivity {
                 userList.clear();
                 for (DataSnapshot friendSnapshot : snapshot.getChildren()) {
                     User user_ = friendSnapshot.getValue(User.class);
-
                     if (("Other".equals(user_.getUserType()) && (state.equals(user_.getState())))) {
                         userList.add(user_);
                     }
@@ -132,9 +129,14 @@ public class nearBy extends AppCompatActivity {
                 nearByAdapter = new nearBy_Adapter(nearBy.this ,userList ,new MyAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Intent intent = new Intent(nearBy.this, Selected_Item.class);
-                        intent.putExtra("nearBy_name", name);
-                        startActivity(intent);
+                        if (userList != null && position >= 0 && position < userList.size()) {
+                            User user_obj = userList.get(position);
+                            name = user_obj.getName();
+
+                            Intent intent = new Intent(nearBy.this, Selected_Item.class);
+                            intent.putExtra("nearBy_name", name);
+                            startActivity(intent);
+                        }
                     }
                 });
 

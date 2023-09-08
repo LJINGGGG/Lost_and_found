@@ -61,7 +61,7 @@ public class Create_post extends AppCompatActivity {
     private Uri imageUri;
 
     private DatabaseReference databaseReference;
-    private String name = "" ,profile_imageUrl ="";
+    private String name = "" ,profile_imageUrl ="" , user_info ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class Create_post extends AppCompatActivity {
 
         Intent intent_get = getIntent();
         if  (intent_get.hasExtra("user_info")){
-            String user_info = intent_get.getStringExtra("user_info");
+            user_info = intent_get.getStringExtra("user_info");
             String[] user_info_Array = user_info.split(",");
             name = user_info_Array[1];
             profile_imageUrl = user_info_Array[2];
@@ -104,6 +104,7 @@ public class Create_post extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Create_post.this,MainActivity.class);
+                intent.putExtra("user_info", user_info);
                 startActivity(intent);
                 finish();
             }

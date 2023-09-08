@@ -67,9 +67,9 @@ public class Create_event extends AppCompatActivity {
     private String information;
     private String category;
     private String location;
-    private String State;
+    private String State , user_info;
     private String image_video;
-    private String auth_user = " ";
+    private String auth_user = " " ;
 
     private TextView textViewStartDate;
     private TextView textViewEndDate;
@@ -90,7 +90,7 @@ public class Create_event extends AppCompatActivity {
 
         Intent intent_get = getIntent();
         if  (intent_get.hasExtra("user_info")){
-            String user_info = intent_get.getStringExtra("user_info");
+            user_info = intent_get.getStringExtra("user_info");
             String[] user_info_Array = user_info.split(",");
             auth_user = user_info_Array[1];
         }
@@ -196,7 +196,10 @@ public class Create_event extends AppCompatActivity {
         return_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Create_event.this,MainActivity_event.class));
+                intent = new Intent(Create_event.this,MainActivity_event.class);
+                intent.putExtra("user_info", user_info);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -322,6 +325,7 @@ public class Create_event extends AppCompatActivity {
 
                             general_dialog("💖Information💖" ,"Successful update and create");
                             intent = new Intent(Create_event.this,MainActivity_event.class);
+                            intent.putExtra("user_info", user_info);
                             startActivity(intent);
                             finish();
                         } else {

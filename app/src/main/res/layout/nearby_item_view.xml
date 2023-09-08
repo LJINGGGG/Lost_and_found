@@ -28,6 +28,7 @@
         android:layout_below="@id/name_textview"
         android:textColor="@color/white"
         android:background="@color/blue_YM"
+        android:textSize = "10dp"
         android:text="xxxx , xxxx" />
 
     <TextView
@@ -37,6 +38,7 @@
         android:layout_toEndOf="@id/imageView"
         android:layout_below="@id/address_textview"
         android:background="@color/blue_YM"
+        android:textSize = "10dp"
         android:textColor="@color/white"
         android:text="xxx-xxxxxxxx" />
 

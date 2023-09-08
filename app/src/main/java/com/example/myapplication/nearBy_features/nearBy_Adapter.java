@@ -51,7 +51,7 @@ public class nearBy_Adapter extends RecyclerView.Adapter<nearBy_Viewholder> {
     @Override
     public void onBindViewHolder(@NonNull nearBy_Viewholder holder, int position) {
         holder.nametextView.setText(userList.get(position).getName());
-        holder.phonetextView.setText(userList.get(position).getEmail());
+        holder.phonetextView.setText(userList.get(position).getEmail() + "/n" + userList.get(position).getPhone_number());
         holder.addresstextView.setText(userList.get(position).getState() + " , "+ userList.get(position).getCountry());
 
 

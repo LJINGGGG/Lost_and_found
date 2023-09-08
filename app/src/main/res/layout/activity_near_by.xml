@@ -34,7 +34,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/nearBy_RecycleView"
         android:layout_width="match_parent"
-        android:layout_height="455dp" />
+        android:layout_height="477dp" />
 
     <LinearLayout
         android:id="@+id/footer"

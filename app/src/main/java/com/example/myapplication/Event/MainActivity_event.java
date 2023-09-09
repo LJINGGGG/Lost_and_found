@@ -3,10 +3,6 @@ package com.example.myapplication.Event;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,7 +14,7 @@ import com.example.myapplication.Create_post;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.nearBy_features.nearBy;
-import com.example.myapplication.user_features.Profile_Picture;
+import com.example.myapplication.profile_features.DisplayProfile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -152,6 +148,9 @@ public class MainActivity_event extends AppCompatActivity {
         });
 
         meButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity_event.this, DisplayProfile.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
         });
 
 

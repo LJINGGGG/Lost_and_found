@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 
@@ -18,10 +16,9 @@ import com.example.myapplication.Create_post;
 import com.example.myapplication.Event.Create_event;
 import com.example.myapplication.Event.MainActivity_event;
 import com.example.myapplication.Event.MyAdapter;
-import com.example.myapplication.Event.Show_event;
-import com.example.myapplication.Event.YourDataModel;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.profile_features.DisplayProfile;
 import com.example.myapplication.user_features.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -106,6 +103,9 @@ public class nearBy extends AppCompatActivity {
             startActivity(intent);
         });
         meButton.setOnClickListener(v -> {
+            Intent intent = new Intent(nearBy.this, DisplayProfile.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
         });
 
     }

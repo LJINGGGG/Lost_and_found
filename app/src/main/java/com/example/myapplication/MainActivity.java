@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,19 +12,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.graphics.Color;
 
 import com.example.myapplication.Event.Create_event;
 import com.example.myapplication.Event.MainActivity_event;
 import com.example.myapplication.nearBy_features.nearBy;
-import com.example.myapplication.user_features.LogIn_;
-import com.example.myapplication.user_features.Profile_Picture;
-import com.example.myapplication.user_features.SignIn_;
+import com.example.myapplication.profile_features.DisplayProfile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -192,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         meButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DisplayProfile.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
         });
     }
 

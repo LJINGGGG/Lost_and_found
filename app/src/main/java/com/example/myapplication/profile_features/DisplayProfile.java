@@ -77,7 +77,60 @@ public class DisplayProfile extends AppCompatActivity {
         editProfileButton = findViewById(R.id.editProfileButton);
         log_out_btn = findViewById(R.id.log_out_button);
 
+        ImageButton eventButton = findViewById(R.id.EventButton);
+        ImageButton homeButton = findViewById(R.id.HomeButton);
+        FloatingActionButton addButton = findViewById(R.id.addButton);
+        ImageButton nearbyButton = findViewById(R.id.NearByButton);
+        ImageButton meButton = findViewById(R.id.MeButton);
+
+
         load_userInfo(name);
+
+        eventButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DisplayProfile.this, MainActivity_event.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
+        });
+
+        homeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DisplayProfile.this,MainActivity.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
+        });
+
+        addButton.setOnClickListener(v -> {
+            androidx.appcompat.app.AlertDialog.Builder dialogBuilder = new androidx.appcompat.app.AlertDialog.Builder(DisplayProfile.this);
+            dialogBuilder.setTitle("👾 Add Post / Event 👾");
+            dialogBuilder.setPositiveButton("Lost / Found post", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(DisplayProfile.this, Create_post.class);
+                    intent.putExtra("user_info", user_info);
+                    startActivity(intent);
+                }
+            });
+            dialogBuilder.setNegativeButton("Event", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(DisplayProfile.this, Create_event.class);
+                    intent.putExtra("user_info", user_info);
+                    startActivity(intent);
+                }
+            });
+            AlertDialog alertDialog = dialogBuilder.create();
+            alertDialog.show();
+        });
+
+        nearbyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DisplayProfile.this, nearBy.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
+        });
+        meButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DisplayProfile.this, DisplayProfile.class);
+            intent.putExtra("user_info", user_info);
+            startActivity(intent);
+        });
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
